@@ -62,5 +62,7 @@ Type "help()" for more information.
 ## Further reading
 
 - https://github.com/wasm3/embedded-wasm-apps
+- https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md
+- https://github.com/turbolent/w2c2
 - https://docs.micropython.org/en/latest/develop/natmod.html
 - https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885
