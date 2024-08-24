@@ -2,6 +2,9 @@
 
 A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` module and run it dynamically on a Raspberry Pi Pico.
 
+> [!IMPORTANT]
+> **This is purely a Proof-of-Concept, not optimized or ready for actual use.**
+
 ## Compile
 
 Modify `Makefile` to specify the path to [WABT](https://github.com/WebAssembly/wabt/releases/latest) and the [MicroPython](https://github.com/micropython/micropython) source code.
