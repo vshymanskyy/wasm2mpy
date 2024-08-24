@@ -45,3 +45,9 @@ Type "help()" for more information.
 >>> test.add(10, 6)
 16
 ```
+
+## Further reading
+
+- https://github.com/wasm3/embedded-wasm-apps
+- https://docs.micropython.org/en/latest/develop/natmod.html
+- https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885
