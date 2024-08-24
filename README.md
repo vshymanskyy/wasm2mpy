@@ -7,6 +7,16 @@ A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` mod
 
 ## Compile
 
+For example, `test.wasm` just adds 2 numbers:
+
+```wat
+(module
+    (func (export "add") (param i32 i32) (result i32)
+        (i32.add (local.get 0) (local.get 1))
+    )
+)
+```
+
 Modify `Makefile` to specify the path to [WABT](https://github.com/WebAssembly/wabt/releases/latest) and the [MicroPython](https://github.com/micropython/micropython) source code.
 
 ```sh
