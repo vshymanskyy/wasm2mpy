@@ -1,6 +1,6 @@
 # wasm2mpy
 
-A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` module and run it dynamically on a Raspberry Pi Pico.
+A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` module and run it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
 
 > [!IMPORTANT]
 > **This is purely a Proof-of-Concept, not optimized or ready for actual use.**
@@ -58,6 +58,15 @@ Type "help()" for more information.
 >>> test.add(10, 6)
 16
 ```
+
+## TODO
+
+- [x] Support exports
+- [ ] Support imports
+- [ ] Support memory
+- [ ] Auto-generate python bindings
+- [ ] TBD: Support globals
+- [ ] TBD: Optimize runtime
 
 ## Further reading
 
