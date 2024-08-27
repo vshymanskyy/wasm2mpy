@@ -33,7 +33,7 @@ jobs:
         pip3 install -U pyelftools
 
         sudo apt update
-        sudo apt install build-essential gcc-arm-none-eabi
+        sudo apt install build-essential gcc-multilib gcc-arm-none-eabi
 
     - name: Run builds
       run: |
