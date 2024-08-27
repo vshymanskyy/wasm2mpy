@@ -79,6 +79,7 @@ Type "help()" for more information.
 - [ ] Auto-generate python bindings
 - [ ] TBD: Support globals
 - [ ] TBD: Optimize runtime
+- [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 
 ## Further reading
 
