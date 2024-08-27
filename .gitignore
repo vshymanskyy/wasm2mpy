@@ -1,4 +1,4 @@
 build/
+wasm/
+tools/
 test.mpy
-wasm.c
-wasm.h
