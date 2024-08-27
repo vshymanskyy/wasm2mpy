@@ -19,12 +19,8 @@
 #include <assert.h>
 #include <stdio.h>
 
-#ifdef _WIN32
-#include <windows.h>
-//#else
-//#include <sys/mman.h>
-#endif
-
+// TODO: Support Custom Page Sizes
+// https://github.com/WebAssembly/wabt/issues/2019#issuecomment-2308930257
 #define WASM_PAGE_SIZE 65536
 
 #ifdef WASM_RT_GROW_FAILED_HANDLER
@@ -94,7 +90,8 @@ static int os_mprotect(void* addr, size_t size) {
   return -1;
 }
 
-static void os_print_last_error(const char* msg) {
+__attribute__((weak))
+void os_print_last_error(const char* msg) {
   DWORD errorMessageID = GetLastError();
   if (errorMessageID != 0) {
     LPSTR messageBuffer = 0;
@@ -130,7 +127,8 @@ static int os_mprotect(void* addr, size_t size) {
   return mprotect(addr, size, PROT_READ | PROT_WRITE);
 }
 
-static void os_print_last_error(const char* msg) {
+__attribute__((weak))
+void os_print_last_error(const char* msg) {
   perror(msg);
 }
 

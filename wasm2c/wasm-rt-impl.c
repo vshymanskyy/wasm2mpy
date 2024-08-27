@@ -62,12 +62,12 @@ void wasm_rt_trap(wasm_rt_trap_t code) {
   wasm_rt_call_stack_depth = wasm_rt_saved_call_stack_depth;
 #endif
 
-//#ifdef WASM_RT_TRAP_HANDLER
-//  WASM_RT_TRAP_HANDLER(code);
+#ifdef WASM_RT_TRAP_HANDLER
+  WASM_RT_TRAP_HANDLER(code);
   wasm_rt_unreachable();
-//#else
-//  WASM_RT_LONGJMP(g_wasm_rt_jmp_buf, code);
-//#endif
+#else
+  WASM_RT_LONGJMP(g_wasm_rt_jmp_buf, code);
+#endif
 }
 
 #ifdef _WIN32

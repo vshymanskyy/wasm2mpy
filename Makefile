@@ -2,8 +2,8 @@
 # Created:   24.08.2024
 
 # Location of top-level MicroPython directory
-MPY_DIR ?= ../micropython
-WABT_DIR ?= ../wabt-1.0.36
+MPY_DIR ?= /opt/micropython
+WABT_DIR ?= /opt/wabt-1.0.36
 WASM2C = $(WABT_DIR)/bin/wasm2c
 
 # x86, x64, armv6m, armv7m, armv7emsp, armv7emdp, xtensa, xtensawin

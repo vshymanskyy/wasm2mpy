@@ -33,17 +33,46 @@ void *realloc( void *ptr, size_t new_size ) {
     return 0;
 }
 
+//__attribute__((weak))
 void *memset( void *dest, int ch, size_t count ) {
     return dest;
 }
 
-void* memcpy( void* dest, const void* src, size_t count ) {
+//__attribute__((weak))
+void* memcpy(void* dest, const void* src, size_t n) {
+    unsigned char* d = dest;
+    const unsigned char* s = src;
+    while (n--) {
+        *d++ = *s++;
+    }
     return dest;
 }
 
-void abort() {
-    for(;;);
+size_t strlen(const char *str) {
+    const char *s;
+    for (s = str; *s; ++s);
+    return (s - str);
 }
+
+void abort() {
+    for(;;) {}  // Wait forever
+}
+
+
+void os_print_last_error(const char* msg) {
+    abort();
+}
+
+void wasm_rt_trap_handler(wasm_rt_trap_t code) {
+    abort();
+}
+
+__attribute__((weak))
+void w2c_app_0x5Finitialize(w2c_wasm* module) {}
+
+__attribute__((weak))
+void w2c_app_0x5Fstart(w2c_wasm* module) {}
+
 
 mp_obj_t mpy_init(mp_obj_fun_bc_t *self, size_t n_args, size_t n_kw, mp_obj_t *args) {
     // This must be first, it sets up the globals dict and other things
@@ -54,6 +83,9 @@ mp_obj_t mpy_init(mp_obj_fun_bc_t *self, size_t n_args, size_t n_kw, mp_obj_t *a
 
     // Construct the module instance
     wasm2c_wasm_instantiate(&module);
+
+    w2c_app_0x5Finitialize(&module);
+    w2c_app_0x5Fstart(&module);
 
     // Make the function available in the module's namespace
     mp_store_global(MP_QSTR_add, MP_OBJ_FROM_PTR(&add_obj));

@@ -7,10 +7,22 @@ A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` mod
 
 ## Compile
 
-Modify `Makefile` to specify the path to [WABT](https://github.com/WebAssembly/wabt/releases/latest) and the [MicroPython](https://github.com/micropython/micropython) source code.
+You'll need:
+
+- Python 3 + `pyelftools`
+- [WABT](https://github.com/WebAssembly/wabt/releases/tag/1.0.36)
+- [MicroPython v1.23.0](https://github.com/micropython/micropython) source code
+- Target architecture toolchain
+
+Set up the environment an build the `.mpy` module from `.wasm`:
 
 ```sh
-$ make
+export MPY_DIR=/path/to/micropython
+export WABT_DIR=/path/to/wabt
+export PATH=/opt/toolchain-xtensa/bin:$PATH
+export PATH=/opt/toolchain-xtensa-esp32/bin:$PATH
+pip install -U pyelftools
+make ARCH=armv6m   # x86, x64, armv6m, armv7m, armv7emsp, armv7emdp, xtensa, xtensawin
 ```
 
 Output:

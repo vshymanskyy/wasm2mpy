@@ -51,11 +51,13 @@ extern "C" {
 #define wasm_rt_unreachable abort
 #endif
 
-#ifdef __STDC_VERSION__
-#if __STDC_VERSION__ >= 201112L
-#define WASM_RT_C11_AVAILABLE
-#endif
-#endif
+//#ifdef __STDC_VERSION__
+//#if __STDC_VERSION__ >= 201112L
+//#define WASM_RT_C11_AVAILABLE
+//#endif
+//#endif
+
+#define WASM_RT_TRAP_HANDLER wasm_rt_trap_handler
 
 /**
  * Many devices don't implement the C11 threads.h. We use CriticalSection APIs
@@ -100,19 +102,7 @@ extern "C" {
  * WASM_RT_MEMCHECK_SIGNAL_HANDLER macro to the ALLOCATION and CHECK macros that
  * are now used.
  */
-#if defined(WASM_RT_MEMCHECK_SIGNAL_HANDLER)
-
-#if WASM_RT_MEMCHECK_SIGNAL_HANDLER
-#define WASM_RT_USE_MMAP 1
-#define WASM_RT_MEMCHECK_GUARD_PAGES 1
-#else
-#define WASM_RT_USE_MMAP 0
-#define WASM_RT_MEMCHECK_BOUNDS_CHECK 1
-#endif
-
-#warning \
-    "WASM_RT_MEMCHECK_SIGNAL_HANDLER has been deprecated in favor of WASM_RT_USE_MMAP and WASM_RT_MEMORY_CHECK_* macros"
-#endif
+/* removed */
 
 /**
  * Specify if we use OR mmap/mprotect (+ Windows equivalents) OR malloc/realloc
@@ -125,13 +115,7 @@ extern "C" {
  * It defaults to mmap on 64-bit platforms assuming memory64 support is not
  * needed (so we can use the guard based range checks below).
  */
-#ifndef WASM_RT_USE_MMAP
-#if UINTPTR_MAX > 0xffffffff && !SUPPORT_MEMORY64
-#define WASM_RT_USE_MMAP 1
-#else
-#define WASM_RT_USE_MMAP 0
-#endif
-#endif
+/* removed */
 
 /**
  * Set the range checking strategy for Wasm memories.
@@ -498,20 +482,20 @@ typedef struct {
   jmp_buf buffer;
 } wasm_rt_jmp_buf;
 
-#ifndef _WIN32
-#define WASM_RT_SETJMP_SETBUF(buf) sigsetjmp(buf, 1)
-#else
-#define WASM_RT_SETJMP_SETBUF(buf) setjmp(buf)
-#endif
+//#ifndef _WIN32
+//#define WASM_RT_SETJMP_SETBUF(buf) sigsetjmp(buf, 1)
+//#else
+//#define WASM_RT_SETJMP_SETBUF(buf) setjmp(buf)
+//#endif
 
 #define WASM_RT_SETJMP(buf) \
   ((buf).initialized = true, WASM_RT_SETJMP_SETBUF((buf).buffer))
 
-#ifndef _WIN32
-#define WASM_RT_LONGJMP_UNCHECKED(buf, val) siglongjmp(buf, val)
-#else
-#define WASM_RT_LONGJMP_UNCHECKED(buf, val) longjmp(buf, val)
-#endif
+//#ifndef _WIN32
+//#define WASM_RT_LONGJMP_UNCHECKED(buf, val) siglongjmp(buf, val)
+//#else
+//#define WASM_RT_LONGJMP_UNCHECKED(buf, val) longjmp(buf, val)
+//#endif
 
 #define WASM_RT_LONGJMP(buf, val)                                   \
   /** Abort on failure as this may be called in the trap handler */ \
@@ -624,6 +608,10 @@ uint32_t wasm_rt_grow_funcref_table(wasm_rt_funcref_table_t*,
 uint32_t wasm_rt_grow_externref_table(wasm_rt_externref_table_t*,
                                       uint32_t delta,
                                       wasm_rt_externref_t init);
+
+void os_print_last_error(const char* msg);
+
+void wasm_rt_trap_handler(wasm_rt_trap_t code);
 
 #ifdef __cplusplus
 }
