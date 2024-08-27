@@ -21,15 +21,19 @@ jobs:
     - name: Install dependencies
       run: |
         mkdir -p tools
-        wget -qO- https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.2.0-gcc10.3/x86_64-linux-gnu.xtensa-lx106-elf-c791b74.230224.tar.gz | tar xvz -C ./tools
-        wget -qO- https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz | tar xvz -C ./tools
-        wget -qO- https://github.com/WebAssembly/wabt/releases/download/1.0.36/wabt-1.0.36-ubuntu-20.04.tar.gz | tar xvz -C ./tools
-        wget -qO- https://github.com/micropython/micropython/releases/download/v1.23.0/micropython-1.23.0.tar.xz | tar xvJ -C ./tools
+        echo "Installing xtensa-lx106-elf"
+        wget -qO- https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.2.0-gcc10.3/x86_64-linux-gnu.xtensa-lx106-elf-c791b74.230224.tar.gz | tar xz -C ./tools
+        echo "Installing xtensa-esp32-elf"
+        wget -qO- https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz | tar xz -C ./tools
+        echo "Installing WABT"
+        wget -qO- https://github.com/WebAssembly/wabt/releases/download/1.0.36/wabt-1.0.36-ubuntu-20.04.tar.gz | tar xz -C ./tools
+        echo "Installing MicroPython"
+        wget -qO- https://github.com/micropython/micropython/releases/download/v1.23.0/micropython-1.23.0.tar.xz | tar xJ -C ./tools
 
         pip3 install -U pyelftools
 
         sudo apt update
-        sudo apt install gcc-arm-none-eabi
+        sudo apt install build-essential gcc-arm-none-eabi
 
     - name: Run builds
       run: |
