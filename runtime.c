@@ -36,11 +36,11 @@ void *realloc( void *ptr, size_t new_size ) {
     return 0;
 }
 
-//__attribute__((weak))
-void *memset( void *dest, int ch, size_t count ) {
-    os_print_last_error("Notimpl: memset");   // TODO
-    return dest;
+#if !defined(__linux__)
+void *memset(void *s, int c, size_t n) {
+    return mp_fun_table.memset_(s, c, n);
 }
+#endif
 
 //__attribute__((weak))
 void* memcpy(void* dest, const void* src, size_t n) {
