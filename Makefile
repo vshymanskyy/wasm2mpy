@@ -11,6 +11,7 @@ BUILD ?= build
 ARCH ?= armv6m
 MOD ?= $(APP)
 SRC += runtime/runtime.c        \
+  runtime/libc.c                \
   runtime/wasm-rt-mem-impl.c    \
   runtime/wasm-rt-impl.c
   #runtime/wasm-rt-exceptions-impl.c

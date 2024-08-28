@@ -6,69 +6,6 @@
 #include "py/dynruntime.h"
 #include "wasm.h"
 
-/***************************************
- * Basic runtime
- ***************************************/
-
-void* calloc( size_t num, size_t size ) {
-    void *ptr = m_malloc(num * size);
-    // memory already cleared by conservative GC
-    return ptr;
-}
-
-void free( void *ptr ) {
-    m_free(ptr);
-}
-
-void *realloc( void *ptr, size_t new_size ) {
-    return m_realloc(ptr, new_size);
-}
-
-void *memcpy(void *dst, const void *src, size_t n) {
-    return mp_fun_table.memmove_(dst, src, n);
-}
-
-void *memset(void *s, int c, size_t n) {
-    return mp_fun_table.memset_(s, c, n);
-}
-
-void *memmove(void *dest, const void *src, size_t n) {
-    return mp_fun_table.memmove_(dest, src, n);
-}
-
-int memcmp(const void *vl, const void *vr, size_t n) {
-    const unsigned char *l=vl, *r=vr;
-    for (; n && *l == *r; n--, l++, r++);
-    return n ? *l-*r : 0;
-}
-
-size_t strlen(const char *str) {
-    const char *s;
-    for (s = str; *s; ++s);
-    return (s - str);
-}
-
-void abort() {
-    mp_printf(&mp_plat_print, "Aborting");
-    for(;;) {}  // Wait forever
-}
-
-
-void os_print_last_error(const char* msg) {
-    mp_printf(&mp_plat_print, "Error: %s\n", msg);
-    abort();
-}
-
-void wasm_rt_trap_handler(wasm_rt_trap_t code) {
-    mp_printf(&mp_plat_print, "Trap: %d\n", code);
-    abort();
-}
-
-
-/***************************************
- * WASM module runtime
- ***************************************/
-
 // Instance of the WASM module
 w2c_wasm module;
 
@@ -124,6 +61,16 @@ void w2c_app_0x5Finitialize(w2c_wasm* module) {}
 
 __attribute__((weak))
 void w2c_app_0x5Fstart(w2c_wasm* module) {}
+
+void os_print_last_error(const char* msg) {
+    mp_printf(&mp_plat_print, "Error: %s\n", msg);
+    abort();
+}
+
+void wasm_rt_trap_handler(wasm_rt_trap_t code) {
+    mp_printf(&mp_plat_print, "Trap: %d\n", code);
+    abort();
+}
 
 mp_obj_t mpy_init(mp_obj_fun_bc_t *self, size_t n_args, size_t n_kw, mp_obj_t *args) {
     // This must be first, it sets up the globals dict and other things
