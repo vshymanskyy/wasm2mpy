@@ -7,16 +7,17 @@ Convert `WebAssembly` binary into a `MicroPython` module and run it dynamically 
 > Some builds currently fail because ABI libraries are not being linked.  
 > 🚧 This is Work-In-Progress 🚧
 
-| App \ Target   | x86   | x64   | armv6m   | armv7m   | esp8266  | esp32       |
-|----------------|-------|-------|----------|----------|----------|-------------|
-| AssemblyScript | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| C++            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| Rust           | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| TinyGo         | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| Virgil         | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
-| WAT            | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
-| Zig            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| C99 Coremark   | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
+
+| App \ Target   | x86   | x64   | armv6m   | armv7m  | armv7emsp   | armv7emdp   | esp8266  | esp32      |
+|----------------|-------|-------|----------|---------|-------------|-------------|----------|------------|
+| AssemblyScript | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
+| C++            | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
+| Rust           | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | ⏳         |
+| TinyGo         | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
+| Virgil         | 🟢    | 🟢    | ⏳       | 🟢      | 🟢          | 🟢          | 🟢       | 🟢         |
+| WAT            | 🟢    | 🟢    | ⏳       | 🟢      | 🟢          | 🟢          | 🟢       | 🟢         |
+| Zig            | 🟢    | 🟢    | ⏳       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
+| C99 Coremark   | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
 
 ## Compile
 
@@ -92,18 +93,22 @@ Type "help()" for more information.
 
 ## TODO
 
-- [ ] Implement `millis()`, run Coremark
 - [ ] Fix linking with native toolchain ABI
 - [x] Support exports
   - [ ] Auto-generate exports bindings
 - [x] Support imports
   - [ ] Use functions of other modules like `time`, `machine` etc.
+  - [ ] Implement `millis()`, run Coremark
 - [x] Support memory
   - [ ] Expose memory to Python
 - [ ] TBD: Support globals
-- [ ] TBD: Optimize runtime
-  - [ ] `mpy_ld`: remove unreferenced code and data
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
+
+## Future Work
+
+- [XIP for native modules](https://github.com/orgs/micropython/discussions/12811#discussioncomment-7399671)
+- Support `.a` inputs for `mpy_ld`
+- `mpy_ld` to perform optimizations, i.e. removing unreferenced code and data
 
 ## Further reading
 
