@@ -7,16 +7,16 @@ Convert `WebAssembly` into a `MPY` module and run it dynamically on a Raspberry 
 > Some builds currently fail because ABI libraries are not being linked.  
 > 🚧 This is Work-In-Progress 🚧
 
-|                | x86   | x64   | armv6m   | armv7m   | esp8266  | esp32       |
+| App \ Target   | x86   | x64   | armv6m   | armv7m   | esp8266  | esp32       |
 |----------------|-------|-------|----------|----------|----------|-------------|
-| assemblyscript | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
-| cpp            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| rust           | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
-| tinygo         | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
-| virgil         | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
-| wat            | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
-| zig            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| coremark       | 🟢    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
+| AssemblyScript | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
+| C++            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
+| Rust           | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
+| TinyGo         | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
+| Virgil         | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
+| WAT            | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
+| Zig            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
+| C99/Coremark   | 🟢    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
 
 ## Compile
 
