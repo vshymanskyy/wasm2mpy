@@ -18,12 +18,10 @@ SRC += runtime/runtime.c        \
 
 SRC += $(BUILD)/wasm.c
 
+SRC_O = $(wildcard runtime/libgcc-$(ARCH)/*.o)
+
 # Wasm module to build
 WASM ?= test/$(APP).wasm
-
-ifeq ($(ARCH),armv6m)
-SRC += runtime/thumb_case.S
-endif
 
 include $(MPY_DIR)/py/dynruntime.mk
 
@@ -32,7 +30,6 @@ CFLAGS += -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
 #CLEAN_EXTRA += $(BUILD)
 
 $(BUILD)/wasm.c: $(WASM)
-	$(Q)$(MKDIR) -p build
 	$(Q)$(MKDIR) -p $(BUILD)
 	$(ECHO) "W2C $<"
 	$(Q)wasm2c -o $@ --no-debug-names --module-name="wasm" $<
