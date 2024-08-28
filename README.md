@@ -7,9 +7,8 @@ Convert `WebAssembly` binary into a `MicroPython` module and run it dynamically 
 > Some builds currently fail because ABI libraries are not being linked.  
 > 🚧 This is Work-In-Progress 🚧
 
-
-| App \ Target   | x86   | x64   | armv6m   | armv7m  | armv7emsp   | armv7emdp   | esp8266  | esp32      |
-|----------------|-------|-------|----------|---------|-------------|-------------|----------|------------|
+| App \ Target   | x86   | x64   | arm-m0   | arm-m3  | arm-m4      | arm-m7       | esp8266  | esp32      |
+|----------------|-------|-------|----------|---------|-------------|--------------|----------|------------|
 | AssemblyScript | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
 | C++            | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
 | Rust           | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | ⏳         |
