@@ -27,9 +27,15 @@ include $(MPY_DIR)/py/dynruntime.mk
 
 CFLAGS += -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
           -Wno-unused-variable -Wno-unused-but-set-variable
+
+LIBGCC = $(realpath $(shell $(CROSS)gcc $(CFLAGS) --print-libgcc-file-name))
+LIBM = $(realpath $(shell $(CROSS)gcc $(CFLAGS) --print-file-name=libm.a))
+
 #CLEAN_EXTRA += $(BUILD)
 
 $(BUILD)/wasm.c: $(WASM)
+	$(Q)echo "libgcc: $(LIBGCC)"
+	$(Q)echo "libm:   $(LIBM)"
 	$(Q)$(MKDIR) -p $(BUILD)
 	$(ECHO) "W2C $<"
 	$(Q)wasm2c -o $@ --no-debug-names --module-name="wasm" $<
