@@ -7,7 +7,7 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 | App \ Target      | x86   | x64   | armv6m  | armv7m | armv7emsp   | armv7emdp   | esp8266  | esp32      |
 |-------------------|-------|-------|---------|--------|-------------|-------------|----------|------------|
-| 🚀 AssemblyScript | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
+| 🚀 TypeScript¹    | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
 | 🤩 C++            | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
 | 🦀 Rust           | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | ⏳         |
 | 🤖 TinyGo         | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
@@ -15,6 +15,8 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 | ⚙ WAT            | 🟢    | 🟢    | ⏳       | 🟢      | 🟢          | 🟢          | 🟢       | 🟢         |
 | ⚡ Zig            | 🟢    | 🟢    | ⏳       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
 | 🇨 Coremark       | 🟢    | 🟢    | 🟥       | 🟢      | 🟢          | 🟢          | 🟥       | 🟢         |
+
+¹ AssemblyScript
 
 ## Compile
 
