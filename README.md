@@ -1,6 +1,6 @@
 # wasm2mpy
 
-Convert `WebAssembly` into a `MPY` module and run it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
+Convert `WebAssembly` binary into a `MicroPython` module and run it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
 
 > [!IMPORTANT]
 > **This is purely a Proof-of-Concept, not optimized or ready for actual use.**  
@@ -67,8 +67,8 @@ mpremote exec "import zig; zig.setup()"
 ## Run any exported function
 
 > [!NOTE]
-> This requires adding some glue code to the runtime.
-> Glue code will be auto-generated, but for now it's a manual process.
+> This requires adding some glue code to the runtime.  
+> Glue code can be auto-generated, but for now it's a manual process.
 
 For example, `test/simple.wasm` just adds 2 numbers:
 
@@ -92,8 +92,8 @@ Type "help()" for more information.
 
 ## TODO
 
-- [ ] Fix linking with ABI
-  - [ ] 
+- [ ] Implement `millis()`, run Coremark
+- [ ] Fix linking with native toolchain ABI
 - [x] Support exports
   - [ ] Auto-generate exports bindings
 - [x] Support imports
@@ -102,6 +102,7 @@ Type "help()" for more information.
   - [ ] Expose memory to Python
 - [ ] TBD: Support globals
 - [ ] TBD: Optimize runtime
+  - [ ] `mpy_ld`: remove unreferenced code and data
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 
 ## Further reading
