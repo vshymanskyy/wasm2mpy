@@ -43,9 +43,13 @@ jobs:
 
         export MPY_DIR=$PWD/tools/micropython-1.23.0
 
-        for A in x86 x64 armv6m armv7m armv7emsp armv7emdp xtensa xtensawin; do
-          echo "=================="
-          make clean all ARCH=$A
+        # TODO: assemblyscript cpp rust tinygo virgil wat zig coremark
+
+        for TARGET in x86 x64 armv6m armv7m armv7emsp armv7emdp xtensa xtensawin; do
+          for APP in virgil wat; do
+            echo "================== $TARGET - $APP =================="
+            make clean all ARCH=$TARGET APP=$APP 2>&1
+          done
         done
 
         GREEN="\033[0;32m"

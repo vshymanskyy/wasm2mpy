@@ -19,39 +19,45 @@ Set up the environment an build the `.mpy` module from `.wasm`:
 ```sh
 export MPY_DIR=/path/to/micropython
 export WABT_DIR=/path/to/wabt
-export PATH=/opt/toolchain-xtensa/bin:$PATH
-export PATH=/opt/toolchain-xtensa-esp32/bin:$PATH
+export PATH=/opt/xtensa-lx106-elf/bin:$PATH
+export PATH=/opt/xtensa-esp32-elf/bin:$PATH
 pip install -U pyelftools
-make ARCH=armv6m   # x86, x64, armv6m, armv7m, armv7emsp, armv7emdp, xtensa, xtensawin
+make ARCH=xtensawin APP=zig   # x86, x64, armv6m, armv7m, armv7emsp, armv7emdp, xtensa, xtensawin
 ```
 
 Output:
 
 ```log
-W2C test.wasm
-GEN build/test.config.h
-CC runtime.c
-CC wasm.c
-CC wasm2c/wasm-rt-mem-impl.c
-CC wasm2c/wasm-rt-impl.c
-AS thumb_case.S
-LINK build/runtime.o
-arch:         EM_ARM
-text size:    1388
-bss size:     108
-GOT entries:  5
-GEN test.mpy
+W2C test/zig.wasm
+GEN build/zig.config.h
+CC runtime/runtime.c
+CC runtime/wasm-rt-mem-impl.c
+CC runtime/wasm-rt-impl.c
+CC .wasm/wasm.c
+LINK build/runtime/runtime.o
+arch:         EM_XTENSA
+text size:    3524
+rodata size:  850
+bss size:     144
+GOT entries:  57
+GEN zig.mpy
 ```
 
-## Upload to the board
+## Upload and Run
 
 ```sh
-mpremote cp test.mpy :lib/
+mpremote cp zig.mpy :lib/
+mpremote exec "import zig; zig.setup()"
+⚡ Zig is running!
 ```
 
-## Run
+## Run any exported function
 
-In this example, `test.wasm` just adds 2 numbers:
+> [!NOTE]
+> This requires adding some glue code to the runtime.
+> Glue code will be auto-generated, but for now it's a manual process.
+
+For example, `test/simple.wasm` just adds 2 numbers:
 
 ```wat
 (module
@@ -64,10 +70,10 @@ In this example, `test.wasm` just adds 2 numbers:
 ```log
 MicroPython v1.24.0-preview.224.g6c3dc0c0b on 2024-08-22; Raspberry Pi Pico W with RP2040
 Type "help()" for more information.
->>> import test
->>> test.add(3, 4)
+>>> import simple
+>>> simple.add(3, 4)
 7
->>> test.add(10, 6)
+>>> simple.add(10, 6)
 16
 ```
 
