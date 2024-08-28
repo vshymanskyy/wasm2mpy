@@ -14,23 +14,25 @@ results = {target: {app: None for app in apps} for target in targets}
 
 # Function to run the make command and return the result
 def build(target, app):
-    try:
-        print(f"Building {target} - {app}")
-        subprocess.run(
-            [
-                "make",
-                "clean",
-                "all",
-                f"ARCH={target}",
-                f"APP={app}",
-                f"BUILD=build-{target}-{app}",
-            ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.STDOUT,
-            check=True,
-        )
+    print(f"Building {target} - {app}")
+    result = subprocess.run(
+        [
+            "make",
+            "clean",
+            "all",
+            f"ARCH={target}",
+            f"APP={app}",
+            f"BUILD=build-{target}-{app}",
+        ],
+        capture_output = True,
+        text = True,
+    )
+    if result.returncode == 0:
         return (target, app, "🟢")
-    except subprocess.CalledProcessError:
+    else:
+        print(f"==== FAILED {target} - {app} ====")
+        print(result.stdout)
+        print(result.stderr)
         return (target, app, "🟥")  # ⏳
 
 
