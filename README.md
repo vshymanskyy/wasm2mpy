@@ -1,11 +1,9 @@
 # wasm2mpy
 
-Convert `WebAssembly` binary into a `MicroPython` module and run it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
+Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
 
 > [!IMPORTANT]
-> **This is purely a Proof-of-Concept, not optimized or ready for actual use.**  
-> Some builds currently fail because ABI libraries are not being linked.  
-> 🚧 This is Work-In-Progress 🚧
+> **This is a Proof-of-Concept, not optimized or ready for actual use.**
 
 | App \ Target   | x86   | x64   | armv6m  | armv7m | armv7emsp   | armv7emdp   | esp8266  | esp32      |
 |----------------|-------|-------|---------|--------|-------------|-------------|----------|------------|
@@ -96,8 +94,8 @@ Type "help()" for more information.
 - [x] Support exports
   - [ ] Auto-generate exports bindings
 - [x] Support imports
-  - [ ] Use functions of other modules like `time`, `machine` etc.
-  - [ ] Implement `millis()`, run Coremark
+  - [x] Use functions from other modules like `time`, `machine` etc.
+  - [x] Implement `millis()`, run Coremark
 - [x] Support memory
   - [ ] Expose memory to Python
 - [ ] TBD: Support globals
