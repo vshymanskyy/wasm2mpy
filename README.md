@@ -100,6 +100,7 @@ Type "help()" for more information.
   - [ ] Expose memory to Python
 - [ ] TBD: Support globals
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
+- [ ] Add AArch64 support: https://github.com/micropython/micropython/issues/4176#issuecomment-1657003511
 
 ## Future Work
 
