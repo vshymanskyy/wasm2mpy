@@ -51,3 +51,13 @@ void abort() {
     mp_printf(&mp_plat_print, "Aborting");
     for(;;) {}  // Wait forever
 }
+
+#if defined(__ARM_EABI__)
+int __aeabi_idiv0(int ret) {
+  return ret;
+}
+
+long long __aeabi_ldiv0(long long ret) {
+  return ret;
+}
+#endif
