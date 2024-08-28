@@ -3,9 +3,9 @@ import subprocess
 from tabulate import tabulate
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-targets = ["x86", "x64", "armv6m", "armv7m", "xtensa", "xtensawin"]  # "armv7emsp", "armv7emdp",
+targets = ["x86", "x64",  "armv7m", "xtensawin"]  # TODO: "armv6m", "armv7emsp", "armv7emdp", "xtensa", 
 
-apps = ["virgil", "wat"]  # TODO: "assemblyscript", "cpp", "rust", "tinygo", "virgil", "wat", "zig", "coremark"
+apps = ["assemblyscript", "cpp", "rust", "tinygo", "virgil", "wat", "zig", "coremark"]
 
 
 # Initialize a dictionary of dictionaries to store results
@@ -33,7 +33,7 @@ def build(target, app):
         print(f"==== FAILED {target} - {app} ====")
         print(result.stdout)
         print(result.stderr)
-        return (target, app, "🟥")  # ⏳
+        return (target, app, "🟥")
 
 
 # Execute builds in parallel
