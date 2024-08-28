@@ -11,6 +11,10 @@ w2c_wasm module;
 
 // Exported Functions
 
+mp_obj_t mp_mod_time;
+mp_obj_t mp_ticks_ms;
+mp_obj_t mp_sleep_ms;
+
 static mp_obj_t setup(void) {
     w2c_wasm_setup(&module);
     return mp_const_none;
@@ -31,23 +35,21 @@ void w2c_wiring_stopWdt(struct w2c_wiring* wiring) {
 }
 
 void w2c_wiring_delay(struct w2c_wiring* wiring, u32 t) {
-    // TODO: delay(t);
+    mp_obj_t args[1];
+    args[0] = mp_obj_new_int_from_uint(t);
+    mp_call_function_n_kw(mp_sleep_ms, 1, 0, args);
 }
 
 u32 w2c_wiring_millis(struct w2c_wiring* wiring) {
-    return 0; //millis();
+    return mp_obj_get_int(mp_call_function_n_kw(mp_ticks_ms, 0, 0, NULL));
 }
 
 void w2c_wiring_pinMode(struct w2c_wiring* wiring, u32 pin, u32 mode) {
-    /*switch (mode) {
-    case 0: pinMode(pin, INPUT);        break;
-    case 1: pinMode(pin, OUTPUT);       break;
-    case 2: pinMode(pin, INPUT_PULLUP); break;
-    }*/
+    // TODO
 }
 
 void w2c_wiring_digitalWrite(struct w2c_wiring* wiring, u32 pin, u32 value) {
-    //digitalWrite(pin, value);
+    // TODO
 }
 
 void w2c_wiring_print(struct w2c_wiring* wiring, u32 offset, u32 len) {
@@ -75,6 +77,10 @@ void wasm_rt_trap_handler(wasm_rt_trap_t code) {
 mp_obj_t mpy_init(mp_obj_fun_bc_t *self, size_t n_args, size_t n_kw, mp_obj_t *args) {
     // This must be first, it sets up the globals dict and other things
     MP_DYNRUNTIME_INIT_ENTRY
+
+    mp_mod_time = mp_import_name(MP_QSTR_time, mp_const_none, 0);
+    mp_ticks_ms = mp_load_attr(mp_mod_time, MP_QSTR_ticks_ms);
+    mp_sleep_ms = mp_load_attr(mp_mod_time, MP_QSTR_sleep_ms);
 
     // Initialize the Wasm runtime
     wasm_rt_init();

@@ -3,8 +3,7 @@ import subprocess
 from tabulate import tabulate
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-targets = ["x86", "x64",  "armv7m", "xtensawin"]  # TODO: "armv6m", "armv7emsp", "armv7emdp", "xtensa", 
-
+targets = ["x86", "x64", "armv7m", "armv7emsp", "armv7emdp", "xtensawin"]  # TODO: "armv6m", "xtensa",
 apps = ["assemblyscript", "cpp", "rust", "tinygo", "virgil", "wat", "zig", "coremark"]
 
 
