@@ -30,7 +30,7 @@ jobs:
         echo "Installing MicroPython"
         wget -qO- https://github.com/micropython/micropython/releases/download/v1.23.0/micropython-1.23.0.tar.xz | tar xJ -C ./tools
 
-        pip3 install -U pyelftools
+        pip3 install -U pyelftools tabulate
 
         sudo apt update
         sudo apt install build-essential gcc-multilib gcc-arm-none-eabi
@@ -40,22 +40,6 @@ jobs:
         export PATH=$PWD/tools/xtensa-lx106-elf/bin:$PATH
         export PATH=$PWD/tools/xtensa-esp32-elf/bin:$PATH
         export PATH=$PWD/tools/wabt-1.0.36/bin:$PATH
-
         export MPY_DIR=$PWD/tools/micropython-1.23.0
 
-        # TODO: assemblyscript cpp rust tinygo virgil wat zig coremark
-
-        for TARGET in x86 x64 armv6m armv7m armv7emsp armv7emdp xtensa xtensawin; do
-          for APP in virgil wat; do
-            echo "================== $TARGET - $APP =================="
-            make clean all ARCH=$TARGET APP=$APP 2>&1
-          done
-        done
-
-        GREEN="\033[0;32m"
-        NC="\033[0m"
-
-        echo "=================="
-        echo -e "${GREEN} BUILD OK ${NC}"
-        echo "=================="
-
+        python3 buildall.py

@@ -5,6 +5,8 @@
 MPY_DIR ?= /opt/micropython
 APP ?= wat
 
+BUILD ?= build
+
 # x86, x64, armv6m, armv7m, armv7emsp, armv7emdp, xtensa, xtensawin
 ARCH ?= armv6m
 MOD ?= $(APP)
@@ -13,7 +15,7 @@ SRC += runtime/runtime.c        \
   runtime/wasm-rt-impl.c
   #runtime/wasm-rt-exceptions-impl.c
 
-SRC += .wasm/wasm.c
+SRC += $(BUILD)/wasm.c
 
 # Wasm module to build
 WASM ?= test/$(APP).wasm
@@ -24,13 +26,13 @@ endif
 
 include $(MPY_DIR)/py/dynruntime.mk
 
-CFLAGS += -Iruntime -I.wasm -Wno-unused-value -Wno-unused-function \
+CFLAGS += -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
           -Wno-unused-variable -Wno-unused-but-set-variable
-CLEAN_EXTRA += .wasm *.mpy
+#CLEAN_EXTRA += $(BUILD)
 
-.wasm/wasm.c: $(WASM)
+$(BUILD)/wasm.c: $(WASM)
 	$(Q)$(MKDIR) -p build
-	$(Q)$(MKDIR) -p .wasm
+	$(Q)$(MKDIR) -p $(BUILD)
 	$(ECHO) "W2C $<"
 	$(Q)wasm2c -o $@ --no-debug-names --module-name="wasm" $<
-	$(Q)sed -i 's/#if defined(__GNUC__) || defined(__clang__)/#if 0/' .wasm/wasm.c
+	$(Q)sed -i 's/#if defined(__GNUC__) || defined(__clang__)/#if 0/' $@
