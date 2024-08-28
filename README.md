@@ -1,11 +1,11 @@
 # wasm2mpy
 
-A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` module and run it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
+Convert `WebAssembly` into a `MPY` module and run it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
 
 > [!IMPORTANT]
 > **This is purely a Proof-of-Concept, not optimized or ready for actual use.**  
 > Some builds currently fail because ABI libraries are not being linked.  
-> This is Work-In-Progress.
+> 🚧 This is Work-In-Progress 🚧
 
 |                | x86   | x64   | armv6m   | armv7m   | esp8266  | esp32       |
 |----------------|-------|-------|----------|----------|----------|-------------|
@@ -27,7 +27,7 @@ You'll need:
 - [MicroPython v1.23.0](https://github.com/micropython/micropython) source code
 - Target architecture toolchain
 
-Set up the environment an build the `.mpy` module from `.wasm`:
+Set up the environment and build the `.mpy` module from `.wasm`:
 
 ```sh
 export MPY_DIR=/path/to/micropython
@@ -92,16 +92,21 @@ Type "help()" for more information.
 
 ## TODO
 
+- [ ] Fix linking with ABI
+  - [ ] 
 - [x] Support exports
-- [ ] Support imports
-- [ ] Support memory
-- [ ] Auto-generate python bindings
+  - [ ] Auto-generate exports bindings
+- [x] Support imports
+  - [ ] Use functions of other modules like `time`, `machine` etc.
+- [x] Support memory
+  - [ ] Expose memory to Python
 - [ ] TBD: Support globals
 - [ ] TBD: Optimize runtime
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 
 ## Further reading
 
+- `wasm2mpy` discussion: https://github.com/orgs/micropython/discussions/15702
 - https://github.com/wasm3/embedded-wasm-apps
 - https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md
 - https://github.com/turbolent/w2c2
