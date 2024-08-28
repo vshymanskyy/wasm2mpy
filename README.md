@@ -7,16 +7,16 @@ A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` mod
 > Some builds currently fail because ABI libraries are not being linked.  
 > This is Work-In-Progress.
 
-|                | x86   | x64   | armv6m   | armv7m   | xtensa   | xtensawin   |
+|                | x86   | x64   | armv6m   | armv7m   | esp8266  | esp32       |
 |----------------|-------|-------|----------|----------|----------|-------------|
-| assemblyscript | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
+| assemblyscript | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
 | cpp            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| rust           | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
-| tinygo         | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
+| rust           | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
+| tinygo         | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
 | virgil         | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
 | wat            | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
 | zig            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
-| coremark       | 🟢    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
+| coremark       | 🟢    | 🟢    | ⏳       | ⏳       | ⏳       | 🟢          |
 
 ## Compile
 
