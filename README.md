@@ -3,7 +3,20 @@
 A bare-bones example demonstrating how to convert a `WASM` file into a `MPY` module and run it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
 
 > [!IMPORTANT]
-> **This is purely a Proof-of-Concept, not optimized or ready for actual use.**
+> **This is purely a Proof-of-Concept, not optimized or ready for actual use.**  
+> Some builds currently fail because ABI libraries are not being linked.  
+> This is Work-In-Progress.
+
+|                | x86   | x64   | armv6m   | armv7m   | xtensa   | xtensawin   |
+|----------------|-------|-------|----------|----------|----------|-------------|
+| assemblyscript | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
+| cpp            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
+| rust           | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
+| tinygo         | ⏳    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
+| virgil         | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
+| wat            | 🟢    | 🟢    | 🟢       | 🟢       | 🟢       | 🟢          |
+| zig            | 🟢    | 🟢    | ⏳       | 🟢       | ⏳       | 🟢          |
+| coremark       | 🟢    | 🟢    | ⏳       | ⏳       | ⏳       | ⏳          |
 
 ## Compile
 
