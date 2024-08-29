@@ -109,6 +109,9 @@ Type "help()" for more information.
 - [XIP for native modules](https://github.com/orgs/micropython/discussions/12811#discussioncomment-7399671)
 - Support `.a` inputs for `mpy_ld`
 - `mpy_ld` to perform optimizations, i.e. removing unreferenced code and data
+- Implement [WASM Custom Page Sizes](https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md)
+- Implement WASM Exceptions 
+- Implement [WASM Stack Switching](https://github.com/WebAssembly/stack-switching/blob/main/proposals/stack-switching/Explainer.md)
 
 ## Further reading
 
