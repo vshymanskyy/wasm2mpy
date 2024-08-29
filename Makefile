@@ -25,7 +25,7 @@ WASM ?= test/$(APP).wasm
 
 include $(MPY_DIR)/py/dynruntime.mk
 
-CFLAGS += -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
+CFLAGS += -Os -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
           -Wno-unused-variable -Wno-unused-but-set-variable
 
 LIBGCC = $(realpath $(shell $(CROSS)gcc $(CFLAGS) --print-libgcc-file-name))
@@ -40,3 +40,6 @@ $(BUILD)/wasm.c: $(WASM)
 	$(ECHO) "W2C $<"
 	$(Q)wasm2c -o $@ --no-debug-names --module-name="wasm" $<
 	$(Q)sed -i 's/#if defined(__GNUC__) || defined(__clang__)/#if 0/' $@
+	# Remove memchecks, assuming we trust the module
+	$(Q)sed -i 's/MEMCHECK(mem, addr, t1);//' $@
+
