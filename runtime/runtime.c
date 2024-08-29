@@ -41,7 +41,8 @@ void w2c_wiring_delay(struct w2c_wiring* wiring, u32 t) {
 }
 
 u32 w2c_wiring_millis(struct w2c_wiring* wiring) {
-    return mp_obj_get_int(mp_call_function_n_kw(mp_ticks_ms, 0, 0, NULL));
+    mp_obj_t res = mp_call_function_n_kw(mp_ticks_ms, 0, 0, NULL);
+    return mp_obj_get_int(res);
 }
 
 void w2c_wiring_pinMode(struct w2c_wiring* wiring, u32 pin, u32 mode) {
@@ -53,6 +54,7 @@ void w2c_wiring_digitalWrite(struct w2c_wiring* wiring, u32 pin, u32 value) {
 }
 
 void w2c_wiring_print(struct w2c_wiring* wiring, u32 offset, u32 len) {
+    // TODO: verify bounds
     mp_printf(&mp_plat_print, "%.*s", len, (const uint8_t*)module.w2c_memory.data + offset);
 }
 
