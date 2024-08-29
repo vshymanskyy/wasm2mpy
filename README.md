@@ -31,7 +31,7 @@ Set up the environment and build the `.mpy` module from `.wasm`:
 
 ```sh
 export MPY_DIR=/path/to/micropython
-export WABT_DIR=/path/to/wabt
+export PATH=/opt/wabt/bin:$PATH
 export PATH=/opt/xtensa-lx106-elf/bin:$PATH
 export PATH=/opt/xtensa-esp32-elf/bin:$PATH
 pip install -U pyelftools
