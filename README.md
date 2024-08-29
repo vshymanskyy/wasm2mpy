@@ -103,6 +103,10 @@ Type "help()" for more information.
 - [ ] TBD: Support globals
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 - [ ] Add AArch64 support: https://github.com/micropython/micropython/issues/4176#issuecomment-1657003511
+- [ ] Optimize codegen
+  - [ ] Use `u32` instead of `u64` for mem addresses
+  - [ ] Use a directly addressable `.bss` section as memory (skip indirection)
+  - [ ] Optimize memory store and load operations
 
 ## Future Work
 
