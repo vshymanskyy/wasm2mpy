@@ -18,6 +18,10 @@ SRC += runtime/runtime.c        \
 
 SRC += $(BUILD)/wasm.c
 
+ifeq ($(ARCH),xtensa)
+    SRC += runtime/esp8266-rom.S
+endif
+
 SRC_O = $(wildcard runtime/libgcc-$(ARCH)/*.o)
 
 # Wasm module to build
