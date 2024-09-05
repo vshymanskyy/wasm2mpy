@@ -92,6 +92,14 @@ Type "help()" for more information.
 16
 ```
 
+## Access WASM module memory
+
+```py
+>>> import cpp
+>>> cpp._memory[4096:4096+32]
+bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
+```
+
 ## TODO
 
 - [ ] Fix linking with native toolchain ABI
@@ -101,7 +109,6 @@ Type "help()" for more information.
   - [x] Use functions from other modules like `time`, `machine` etc.
   - [x] Implement `millis()`, run Coremark
 - [x] Support memory
-  - [ ] Expose memory to Python
 - [ ] TBD: Support globals
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 - [ ] Add AArch64 support: https://github.com/micropython/micropython/issues/4176#issuecomment-1657003511

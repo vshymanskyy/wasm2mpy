@@ -29,6 +29,25 @@ static mp_obj_t loop(void) {
 
 static MP_DEFINE_CONST_FUN_OBJ_0(loop_obj, loop);
 
+// Module Attributes
+
+static mp_obj_t getattr(mp_obj_t attr) {
+    size_t attr_len;
+    char* attr_str = mp_obj_str_get_data(attr, &attr_len);
+    if (!attr_str) {
+        mp_raise_msg(&mp_type_RuntimeError, "Invalid attr");
+        return mp_const_none;
+    }
+    if (!strncmp(attr_str, "_memory", attr_len)) {
+        return mp_obj_new_bytearray_by_ref(module.w2c_memory.size, (void*)(module.w2c_memory.data));
+    } else {
+        mp_raise_msg(&mp_type_RuntimeError, "Unknown attr");
+        return mp_const_none;
+    }
+}
+
+static MP_DEFINE_CONST_FUN_OBJ_1(getattr_obj, getattr);
+
 // Imported Functions
 
 void w2c_wiring_stopWdt(struct w2c_wiring* wiring) {
@@ -96,6 +115,7 @@ mp_obj_t mpy_init(mp_obj_fun_bc_t *self, size_t n_args, size_t n_kw, mp_obj_t *a
     // Make the function available in the module's namespace
     mp_store_global(MP_QSTR_setup, MP_OBJ_FROM_PTR(&setup_obj));
     mp_store_global(MP_QSTR_loop, MP_OBJ_FROM_PTR(&loop_obj));
+    mp_store_global(MP_QSTR___getattr__, MP_OBJ_FROM_PTR(&getattr_obj));
 
     // This must be last, it restores the globals dict
     MP_DYNRUNTIME_INIT_EXIT
