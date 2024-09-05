@@ -96,8 +96,14 @@ Type "help()" for more information.
 
 ```py
 >>> import cpp
+>>> cpp.setup()
+🤩 C++ is running!
 >>> cpp._memory[4096:4096+32]
 bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
+>>> new_data = b"Hello C++ world"
+>>> cpp._memory[4096+12:4096+12+len(new_data)] = new_data
+>>> cpp.setup()
+🤩 Hello C++ world
 ```
 
 ## TODO
