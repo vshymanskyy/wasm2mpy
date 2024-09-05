@@ -25,7 +25,7 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 You'll need:
 
 - Python 3 + `pyelftools`
-- [WABT](https://github.com/WebAssembly/wabt/releases/tag/1.0.36)
+- `wasm2c` from [WABT](https://github.com/WebAssembly/wabt/releases/tag/1.0.36)
 - [MicroPython v1.23.0](https://github.com/micropython/micropython) source code
 - Target architecture toolchain
 
@@ -108,20 +108,15 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
 
 ## TODO
 
-- [ ] Fix linking with native toolchain ABI
 - [x] Support exports
   - [ ] Auto-generate exports bindings
 - [x] Support imports
-  - [x] Use functions from other modules like `time`, `machine` etc.
-  - [x] Implement `millis()`, run Coremark
 - [x] Support memory
 - [ ] TBD: Support globals
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
-- [ ] Add AArch64 support: https://github.com/micropython/micropython/issues/4176#issuecomment-1657003511
 - [ ] Optimize codegen
   - [ ] Use `u32` instead of `u64` for mem addresses
   - [ ] Use a directly addressable `.bss` section as memory (skip indirection)
-  - [ ] Optimize memory store and load operations
 
 ## Future Work
 
