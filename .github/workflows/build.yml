@@ -40,6 +40,6 @@ jobs:
         export PATH=$PWD/tools/xtensa-lx106-elf/bin:$PATH
         export PATH=$PWD/tools/xtensa-esp32-elf/bin:$PATH
         export PATH=$PWD/tools/wabt-1.0.36/bin:$PATH
-        export MPY_DIR=$PWD/tools/micropython-1.23.0
+        export MPY_DIR=$PWD/tools/micropython-master
 
         python3 buildall.py
