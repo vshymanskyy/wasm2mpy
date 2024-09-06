@@ -16,7 +16,7 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 | ✨ Virgil         | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | ⚙ WAT            | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | ⚡ Zig            | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
-| 🇨 Coremark       | 🟢    | 🟢    | ⏳       | 🟢      | 🟢       | 🟢         | ⏳       |
+| 🇨 Coremark       | 🟢    | 🟢    | ⏳       | 🟢      | ⏳       | 🟢         | ⏳       |
 
 ¹ AssemblyScript  
 ² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018)
@@ -27,7 +27,7 @@ You'll need:
 
 - Python 3 + `pyelftools`
 - `wasm2c` from [WABT](https://github.com/WebAssembly/wabt/releases/tag/1.0.36)
-- [MicroPython v1.23.0](https://github.com/micropython/micropython) source code
+- Latest [MicroPython](https://github.com/micropython/micropython) source code
 - Target architecture toolchain
 
 Set up the environment and build the `.mpy` module from `.wasm`:
