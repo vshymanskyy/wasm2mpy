@@ -7,18 +7,19 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 > [!IMPORTANT]
 > **This is a Proof-of-Concept, not optimized or ready for actual use.**
 
-| App \ Target      | x86   | x64   | armv6m  | armv7m | esp8266  | esp32      | rv32imc |
+| App \ Target      | x86   | x64   | armv6m  | armv7m | esp8266²  | esp32      | rv32imc |
 |-------------------|-------|-------|---------|--------|----------|------------|---------|
 | 🚀 TypeScript¹    | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | 🤩 C++            | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
-| 🦀 Rust           | 🟢    | 🟢    | 🟢       | 🟢      | ⏳       | ⏳         | ⏳       |
+| 🦀 Rust           | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | 🤖 TinyGo         | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | ✨ Virgil         | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | ⚙ WAT            | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | ⚡ Zig            | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | 🇨 Coremark       | 🟢    | 🟢    | ⏳       | 🟢      | 🟢       | 🟢         | ⏳       |
 
-¹ AssemblyScript
+¹ AssemblyScript  
+² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018)
 
 ## Compile
 
