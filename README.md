@@ -12,13 +12,13 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 | 🚀 TypeScript¹    | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
 | 🤩 C++            | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
 | 🦀 Rust           | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| 🤖 TinyGo         | 🟢    | ☠️    | ☠️       | 🟢      | 🟢       | ☠️         | ⏳       |
+| 🤖 TinyGo         | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | ✨ Virgil         | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
 | ⚙ WAT            | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
 | ⚡ Zig            | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| 🇨 Coremark       | 🟢    | ☑    | ☠️       | 🟢      | 🟢       | ☑         | ⏳       |
+| 🇨 Coremark       | 🟢    | ☑    | 🟢       | 🟢      | 🟢       | ☑         | ⏳       |
 
-🟢 - builds OK, ☑ - runs OK, ☠️ - runtime issues, ⏳ - work in progress
+🟢 - builds OK, ☑ - runs OK, ⏳ - work in progress
 
 ¹ AssemblyScript  
 ² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018)  
