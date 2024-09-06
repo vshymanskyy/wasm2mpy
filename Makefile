@@ -29,6 +29,7 @@ WASM ?= test/$(APP).wasm
 
 include $(MPY_DIR)/py/dynruntime.mk
 
+#-DWASM_RT_OPTIMIZE -Ofast
 CFLAGS += -Os -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
           -Wno-unused-variable -Wno-unused-but-set-variable
 

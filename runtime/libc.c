@@ -48,10 +48,10 @@ size_t strlen(const char *str) {
 }
 
 int strncmp(const char *_l, const char *_r, size_t n) {
-	const unsigned char *l=(void *)_l, *r=(void *)_r;
-	if (!n--) return 0;
-	for (; *l && *r && n && *l == *r ; l++, r++, n--);
-	return *l - *r;
+    const unsigned char *l=(void *)_l, *r=(void *)_r;
+    if (!n--) return 0;
+    for (; *l && *r && n && *l == *r ; l++, r++, n--);
+    return *l - *r;
 }
 
 void abort() {
@@ -61,10 +61,10 @@ void abort() {
 
 #if defined(__ARM_EABI__)
 int __aeabi_idiv0(int ret) {
-  return ret;
+    return ret;
 }
 
 long long __aeabi_ldiv0(long long ret) {
-  return ret;
+    return ret;
 }
 #endif

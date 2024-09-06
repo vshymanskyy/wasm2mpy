@@ -91,7 +91,11 @@ void os_print_last_error(const char* msg) {
 }
 
 void wasm_rt_trap_handler(wasm_rt_trap_t code) {
+#if WASM_RT_OPTIMIZE
+    mp_printf(&mp_plat_print, "Trap: %d\n", code);
+#else
     mp_printf(&mp_plat_print, "Trap: %s\n", wasm_rt_strerror(code));
+#endif
     abort();
 }
 

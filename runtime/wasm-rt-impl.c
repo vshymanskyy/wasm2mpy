@@ -261,6 +261,7 @@ void wasm_rt_free_thread(void) {
 #include "wasm-rt-impl-tableops.inc"
 #undef WASM_RT_TABLE_OPS_EXTERNREF
 
+#if !WASM_RT_OPTIMIZE
 const char* wasm_rt_strerror(wasm_rt_trap_t trap) {
   switch (trap) {
     case WASM_RT_TRAP_NONE:
@@ -291,3 +292,4 @@ const char* wasm_rt_strerror(wasm_rt_trap_t trap) {
   }
   return "invalid trap code";
 }
+#endif

@@ -89,6 +89,10 @@ extern "C" {
 #define WASM_RT_THREAD_LOCAL
 #endif
 
+#ifndef WASM_RT_OPTIMIZE
+#define WASM_RT_OPTIMIZE 0
+#endif
+
 /**
  * If enabled, perform additional sanity checks in the generated wasm2c code and
  * wasm2c runtime. This is useful to enable on debug builds.
@@ -206,7 +210,7 @@ extern "C" {
  * Wasm's specification, and may compromise security. Use with caution.
  */
 #ifndef WASM_RT_NONCONFORMING_UNCHECKED_STACK_EXHAUSTION
-#define WASM_RT_NONCONFORMING_UNCHECKED_STACK_EXHAUSTION 0
+#define WASM_RT_NONCONFORMING_UNCHECKED_STACK_EXHAUSTION WASM_RT_OPTIMIZE
 #endif
 
 /**
