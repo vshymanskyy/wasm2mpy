@@ -7,8 +7,8 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 > [!IMPORTANT]
 > **This is a Proof-of-Concept, not optimized or ready for actual use.**
 
-| App \ Target      | x86   | x64   | armv6m  | armv7m | esp8266²  | esp32      | rv32imc |
-|-------------------|-------|-------|---------|--------|----------|------------|---------|
+| App \ Target      | x86   | x64   | armv6m³  | armv7m | esp8266²  | esp32      | rv32imc  |
+|-------------------|-------|-------|----------|---------|----------|------------|----------|
 | 🚀 TypeScript¹    | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | 🤩 C++            | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
 | 🦀 Rust           | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
@@ -19,7 +19,8 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 | 🇨 Coremark       | 🟢    | 🟢    | ⏳       | 🟢      | ⏳       | 🟢         | ⏳       |
 
 ¹ AssemblyScript  
-² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018)
+² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018)  
+³ armv6m depends on [Support modules larger than 4KiB](https://github.com/micropython/micropython/pull/12241)
 
 ## Compile
 
