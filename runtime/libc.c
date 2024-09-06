@@ -55,7 +55,7 @@ int strncmp(const char *_l, const char *_r, size_t n) {
 }
 
 void abort() {
-    mp_printf(&mp_plat_print, "Aborting");
+    mp_printf(&mp_plat_print, "Aborting\n");
     for(;;) {}  // Wait forever
 }
 

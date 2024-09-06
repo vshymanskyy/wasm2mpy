@@ -19,7 +19,7 @@ SRC += runtime/runtime.c        \
 SRC += $(BUILD)/wasm.c
 
 ifeq ($(ARCH),xtensa)
-    SRC += runtime/esp8266-rom.S
+  SRC += runtime/esp8266-rom.S
 endif
 
 SRC_O = $(wildcard runtime/libgcc-$(ARCH)/*.o)
@@ -45,5 +45,5 @@ $(BUILD)/wasm.c: $(WASM)
 	$(Q)wasm2c -o $@ --no-debug-names --module-name="wasm" $<
 	$(Q)sed -i 's/#if defined(__GNUC__) || defined(__clang__)/#if 0/' $@
 	# Remove memchecks, assuming we trust the module
-	$(Q)sed -i 's/MEMCHECK(mem, addr, t1);//' $@
+	#$(Q)sed -i 's/MEMCHECK(mem, addr, t1);//' $@
 
