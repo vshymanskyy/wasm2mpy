@@ -268,21 +268,20 @@ const char* wasm_rt_strerror(wasm_rt_trap_t trap) {
       return "No error";
     case WASM_RT_TRAP_OOB:
 #if WASM_RT_MERGED_OOB_AND_EXHAUSTION_TRAPS
-      return "Out-of-bounds access in linear memory or a table, or call stack "
-             "exhausted";
+      return "OOB in memory/table/call stack";
 #else
-      return "Out-of-bounds access in linear memory or a table";
+      return "OOB in memory/table";
     case WASM_RT_TRAP_EXHAUSTION:
-      return "Call stack exhausted";
+      return "Call stack OOM";
 #endif
     case WASM_RT_TRAP_INT_OVERFLOW:
-      return "Integer overflow on divide or truncation";
+      return "Integer overflow";
     case WASM_RT_TRAP_DIV_BY_ZERO:
-      return "Integer divide by zero";
+      return "Integer div by zero";
     case WASM_RT_TRAP_INVALID_CONVERSION:
-      return "Conversion from NaN to integer";
+      return "Conv NaN -> integer";
     case WASM_RT_TRAP_UNREACHABLE:
-      return "Unreachable instruction executed";
+      return "Unreachable executed";
     case WASM_RT_TRAP_CALL_INDIRECT:
       return "Invalid call_indirect or return_call_indirect";
     case WASM_RT_TRAP_UNCAUGHT_EXCEPTION:
@@ -290,6 +289,6 @@ const char* wasm_rt_strerror(wasm_rt_trap_t trap) {
     case WASM_RT_TRAP_UNALIGNED:
       return "Unaligned atomic memory access";
   }
-  return "invalid trap code";
+  return "Unknown";
 }
 #endif
