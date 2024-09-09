@@ -36,11 +36,12 @@ CFLAGS += -Os -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
 LIBGCC = $(realpath $(shell $(CROSS)gcc $(CFLAGS) --print-libgcc-file-name))
 LIBM = $(realpath $(shell $(CROSS)gcc $(CFLAGS) --print-file-name=libm.a))
 
+$(info libgcc: $(LIBGCC))
+$(info libm:   $(LIBM))
+
 #CLEAN_EXTRA += $(BUILD)
 
 $(BUILD)/wasm.c: $(WASM)
-	$(Q)echo "libgcc: $(LIBGCC)"
-	$(Q)echo "libm:   $(LIBM)"
 	$(Q)$(MKDIR) -p $(BUILD)
 	$(ECHO) "W2C $<"
 	$(Q)wasm2c -o $@ --no-debug-names --module-name="wasm" $<

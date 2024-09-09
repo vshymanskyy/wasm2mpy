@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import sys
 import subprocess
 from tabulate import tabulate
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 targets = ["x86", "x64", "armv7m", "armv7emsp", "armv7emdp", "xtensa", "xtensawin"]  # "armv6m", "rv32imc"
-apps = ["assemblyscript", "cpp", "rust", "tinygo", "virgil", "wat", "zig", "coremark"]
+apps = ["assemblyscript", "cpp", "rust", "tinygo", "zig", "virgil", "wat", "coremark"]
 
 
 # Initialize a dictionary of dictionaries to store results
@@ -57,5 +59,5 @@ table = [[results[target][app] for target in targets] for app in apps]
 print(tabulate(table, headers=targets, showindex=apps, tablefmt="simple_outline"))
 
 # Detect and report failure
-if any(item != '🟢' for row in table for item in row):
+if any(item != "🟢" for row in table for item in row):
     sys.exit(1)
