@@ -137,26 +137,22 @@ def resolve(archives, symbols):
     return list(resolved_objs)
 
 if __name__ == "__main__":
-    import sys
+    import argparse
+    parser = argparse.ArgumentParser(description="Resolve dependencies from archive files.")
+    parser.add_argument('--arch',            help='Target architecture to extract objects to')
+    parser.add_argument('inputs', nargs='+', help='AR archive files and symbols to resolve')
+    args = parser.parse_args()
 
-    if len(sys.argv) < 3:
-        print(f"Usage: {sys.argv[0]} <archive-files> <symbols>")
-        sys.exit(1)
+    # Separate files and symbols
+    archives = [CachedArFile(item) for item in args.inputs if item.endswith('.a')]
+    symbols = [item for item in args.inputs if not item.endswith('.a')]
 
-    archive_files = []
-    target_symbols = []
+    result = resolve(archives, symbols)
 
-    for arg in sys.argv[1:]:
-        if arg.endswith(".a"):
-            archive_files.append(arg)
-        else:
-            target_symbols.append(arg)
-
-    archives = [ CachedArFile(fn) for fn in archive_files ]
-    result = resolve(archives, target_symbols)
+    # Extract files
     for ar, obj in result:
-        print(ar.fn, obj)
-        content = ar.open(obj).read()
-        with open("runtime/libgcc-armv6m/" + obj, "wb") as output:
-            output.write(content)
-
+        print(os.path.basename(ar.fn), "=>" , obj)
+        if args.arch:
+            content = ar.open(obj).read()
+            with open(f"runtime/libgcc-{args.arch}/{obj}", "wb") as output:
+                output.write(content)
