@@ -40,10 +40,13 @@ def pickle_cache(key, cache_path=".cache", prefix=""):
 class CachedArFile:
     def __init__(self, fn):
         self.fn = fn
-        self.archive = Archive(open(fn, "rb"))
+        self._archive = Archive(open(fn, "rb"))
         info = self.load_symbols()
         self.objs = info["objs"]
         self.symbols = info["symbols"]
+
+    def open(self, obj):
+        return self._archive.open(obj, "rb")
 
     def _cache_key(self):
         with open(self.fn, "rb") as f:
@@ -57,9 +60,9 @@ class CachedArFile:
         print("Loading", self.fn)
         objs = defaultdict(lambda: {"def": set(), "undef": set(), "weak": set()})
         symbols = {}
-        for entry in self.archive:
+        for entry in self._archive:
             obj_name = entry.name
-            elf = elffile.ELFFile(self.archive.open(obj_name, "rb"))
+            elf = elffile.ELFFile(self.open(obj_name))
             symtab = elf.get_section_by_name(".symtab")
             if not symtab:
                 continue
@@ -84,34 +87,54 @@ class CachedArFile:
         return {"objs": dict(objs), "symbols": symbols}
 
 
-def find_dependencies(target_symbol):
-    visited = set()
+def resolve(archives, symbols):
+    resolved_objs = set()       # Object files needed to resolve symbols
+    unresolved_symbols = set()
+    provided_symbols = {}       # Which symbol is provided by which object
+    symbol_stack = list(symbols)
 
-    def traverse(symbol):
-        if symbol in visited:
-            return set()
-        visited.add(symbol)
+    # A helper function to handle symbol resolution from a particular object
+    def add_obj(archive, symbol):
+        obj_name = archive.symbols[symbol]
+        obj_info = archive.objs[obj_name]
 
-        objs = sym_def[symbol]
-        if len(objs) == 0:
-            print(f"Symbol {symbol} is undefined.")
-            return set()
+        if obj_name in resolved_objs:
+            return  # Already processed this object
 
-        if len(objs) > 1:
-            print(f"Symbol {symbol} has multiple definitions: {list(objs)}.")
-            return set()
+        resolved_objs.add((archive, obj_name))
 
-        obj = list(objs)[0]
-        dependencies = {obj}
+        # Add the symbols this object defines
+        for defined_symbol in obj_info['def']:
+            if defined_symbol in provided_symbols:
+                raise RuntimeError(f"Multiple non-weak definitions for symbol: {defined_symbol}")
+            provided_symbols[defined_symbol] = obj_name
 
-        if obj in obj_undef:
-            for undef_sym in obj_undef[obj]:
-                dependencies.update(traverse(undef_sym))
+        # Recursively add undefined symbols from this object
+        for undef_symbol in obj_info['undef']:
+            if undef_symbol not in provided_symbols:
+                symbol_stack.append(undef_symbol)  # Add undefined symbol to resolve
 
-        return dependencies
+    while symbol_stack:
+        symbol = symbol_stack.pop()
 
-    return traverse(target_symbol)
+        if symbol in provided_symbols:
+            continue  # Symbol is already resolved
 
+        found = False
+        for archive in archives:
+            if symbol in archive.symbols:
+                add_obj(archive, symbol)
+                found = True
+                break
+
+        if not found:
+            unresolved_symbols.add(symbol)
+
+    # At this point, all resolvable symbols are resolved
+    if unresolved_symbols:
+        raise RuntimeError(f"Unresolved symbols: {', '.join(unresolved_symbols)}")
+
+    return list(resolved_objs)
 
 if __name__ == "__main__":
     import sys
@@ -129,18 +152,11 @@ if __name__ == "__main__":
         else:
             target_symbols.append(arg)
 
-    archives = {}
-
-    for fn in archive_files:
-        archive = CachedArFile(fn)
-
-"""
-        load_symbols(fn, archive)
-        archives[fn] = archive
-
-    for entry in find_dependencies(target_symbols[0]):
-        ar, obj = entry.rsplit(":", maxsplit=1)
-        content = archives[ar].open(obj, "rb").read()
+    archives = [ CachedArFile(fn) for fn in archive_files ]
+    result = resolve(archives, target_symbols)
+    for ar, obj in result:
+        print(ar.fn, obj)
+        content = ar.open(obj).read()
         with open("runtime/libgcc-armv6m/" + obj, "wb") as output:
             output.write(content)
-"""
+
