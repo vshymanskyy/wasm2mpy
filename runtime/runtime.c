@@ -38,7 +38,7 @@ static mp_obj_t getattr(mp_obj_t attr) {
         mp_raise_msg(&mp_type_RuntimeError, "Invalid attr");
         return mp_const_none;
     }
-    if (!strncmp(attr_str, "_memory", attr_len)) {
+    if (!strncmp(attr_str, "_memory", attr_len + 1)) {
         return mp_obj_new_bytearray_by_ref(module.w2c_memory.size, (void*)(module.w2c_memory.data));
     } else {
         mp_raise_msg(&mp_type_RuntimeError, "Unknown attr");
