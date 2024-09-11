@@ -9,27 +9,35 @@ from ar import Archive
 from elftools.elf import elffile
 from collections import defaultdict
 
-def pickle_cache(key, cache_path=".cache", prefix=""):
+class PickleCache:
+    def __init__(self, path=".cache", prefix=""):
+        self.path = path
+        self._get_fn = lambda key: os.path.join(path, prefix + key[:24])
+    def store(self, key, data):
+        os.makedirs(self.path, exist_ok=True)
+        with open(self._get_fn(key), "wb") as f:
+            pickle.dump(data, f)
+    def load(self, key):
+        with open(self._get_fn(key), "rb") as f:
+            return pickle.load(f)
+
+def cached(key, cache):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             cache_key = key(*args, **kwargs)
-            cache_fn = os.path.join(cache_path, prefix + cache_key[:24])
             try:
-                with open(cache_fn, "rb") as f:
-                    d = pickle.load(f)
+                d = cache.load(cache_key)
                 if d["key"] != cache_key:
                     raise Exception("Cache key mismatch")
                 return d["data"]
             except Exception as e:
                 res = func(*args, **kwargs)
                 try:
-                    os.makedirs(cache_path, exist_ok=True)
-                    with open(cache_fn, "wb") as f:
-                        pickle.dump({
-                            "key": cache_key,
-                            "data": res,
-                        }, f)
+                    cache.store(cache_key, {
+                        "key": cache_key,
+                        "data": res,
+                    })
                 except Exception as e:
                     pass
                 return res
@@ -55,7 +63,7 @@ class CachedArFile:
             digest.update(bytes.fromhex("45155db4bc868fa78cb99c3448b2bf2b"))
         return digest.hexdigest()
 
-    @pickle_cache(key=_cache_key, prefix="ar_")
+    @cached(key=_cache_key, cache=PickleCache(prefix="ar_"))
     def load_symbols(self):
         print("Loading", self.fn)
         objs = defaultdict(lambda: {"def": set(), "undef": set(), "weak": set()})
