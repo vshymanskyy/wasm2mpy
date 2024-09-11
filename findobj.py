@@ -90,13 +90,14 @@ class CachedArFile:
                         obj["undef"].add(sym_name)
 
                     if sym_bind == "STB_WEAK":
+                        #print("Weak", sym_name, symbol.entry["st_shndx"])
                         obj["weak"].add(sym_name)
 
         return {"objs": dict(objs), "symbols": symbols}
 
 
 def resolve(archives, symbols):
-    resolved_objs = set()       # Object files needed to resolve symbols
+    resolved_objs = []          # Object files needed to resolve symbols
     unresolved_symbols = set()
     provided_symbols = {}       # Which symbol is provided by which object
     symbol_stack = list(symbols)
@@ -106,24 +107,28 @@ def resolve(archives, symbols):
         obj_name = archive.symbols[symbol]
         obj_info = archive.objs[obj_name]
 
-        if obj_name in resolved_objs:
+        obj_tuple = (archive, obj_name)
+        if obj_tuple in resolved_objs:
             return  # Already processed this object
 
-        resolved_objs.add((archive, obj_name))
+        resolved_objs.append(obj_tuple)
 
         # Add the symbols this object defines
         for defined_symbol in obj_info['def']:
             if defined_symbol in provided_symbols:
                 raise RuntimeError(f"Multiple non-weak definitions for symbol: {defined_symbol}")
-            provided_symbols[defined_symbol] = obj_name
+            provided_symbols[defined_symbol] = obj_name  # TODO: save if week
 
         # Recursively add undefined symbols from this object
         for undef_symbol in obj_info['undef']:
+            if undef_symbol in obj_info['weak']:
+                print(f"Skippping weak dependency: {undef_symbol}")
+                continue
             if undef_symbol not in provided_symbols:
                 symbol_stack.append(undef_symbol)  # Add undefined symbol to resolve
 
     while symbol_stack:
-        symbol = symbol_stack.pop()
+        symbol = symbol_stack.pop(0)
 
         if symbol in provided_symbols:
             continue  # Symbol is already resolved
@@ -142,12 +147,13 @@ def resolve(archives, symbols):
     if unresolved_symbols:
         raise RuntimeError(f"Unresolved symbols: {', '.join(unresolved_symbols)}")
 
-    return list(resolved_objs)
+    return resolved_objs
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Resolve dependencies from archive files.")
+    parser = argparse.ArgumentParser(description='Resolve dependencies from archive files.')
     parser.add_argument('--arch',            help='Target architecture to extract objects to')
+    parser.add_argument('-v', '--verbose',   help='increase output verbosity', action='store_true')
     parser.add_argument('inputs', nargs='+', help='AR archive files and symbols to resolve')
     args = parser.parse_args()
 
@@ -159,8 +165,11 @@ if __name__ == "__main__":
 
     # Extract files
     for ar, obj in result:
-        print(os.path.basename(ar.fn), "=>" , obj)
+        print(os.path.basename(ar.fn) + ':' + obj)
+        if args.verbose:
+            print('  def:', ','.join(ar.objs[obj]['def']))
+            print('  req:', ','.join(ar.objs[obj]['undef']))
         if args.arch:
             content = ar.open(obj).read()
-            with open(f"runtime/libgcc-{args.arch}/{obj}", "wb") as output:
+            with open(f'runtime/libgcc-{args.arch}/{obj}', 'wb') as output:
                 output.write(content)
