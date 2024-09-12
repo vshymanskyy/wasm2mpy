@@ -9,6 +9,7 @@ from ar import Archive
 from elftools.elf import elffile
 from collections import defaultdict
 
+
 class PickleCache:
     def __init__(self, path=".cache", prefix=""):
         self.path = path
@@ -21,6 +22,7 @@ class PickleCache:
         with open(self._get_fn(key), "rb") as f:
             return pickle.load(f)
 
+
 def cached(key, cache):
     def decorator(func):
         @functools.wraps(func)
@@ -31,14 +33,14 @@ def cached(key, cache):
                 if d["key"] != cache_key:
                     raise Exception("Cache key mismatch")
                 return d["data"]
-            except Exception as e:
+            except Exception:
                 res = func(*args, **kwargs)
                 try:
                     cache.store(cache_key, {
                         "key": cache_key,
                         "data": res,
                     })
-                except Exception as e:
+                except Exception:
                     pass
                 return res
         return wrapper
@@ -80,7 +82,6 @@ class CachedArFile:
             for symbol in symtab.iter_symbols():
                 sym_name = symbol.name
                 sym_bind = symbol["st_info"]["bind"]
-                #info = symbol["st_info"]["type"]
 
                 if sym_bind in ("STB_GLOBAL", "STB_WEAK"):
                     if symbol.entry["st_shndx"] != "SHN_UNDEF":
@@ -90,7 +91,6 @@ class CachedArFile:
                         obj["undef"].add(sym_name)
 
                     if sym_bind == "STB_WEAK":
-                        #print("Weak", sym_name, symbol.entry["st_shndx"])
                         obj["weak"].add(sym_name)
 
         return {"objs": dict(objs), "symbols": symbols}
@@ -114,14 +114,14 @@ def resolve(archives, symbols):
         resolved_objs.append(obj_tuple)
 
         # Add the symbols this object defines
-        for defined_symbol in obj_info['def']:
+        for defined_symbol in obj_info["def"]:
             if defined_symbol in provided_symbols:
                 raise RuntimeError(f"Multiple non-weak definitions for symbol: {defined_symbol}")
             provided_symbols[defined_symbol] = obj_name  # TODO: save if week
 
         # Recursively add undefined symbols from this object
-        for undef_symbol in obj_info['undef']:
-            if undef_symbol in obj_info['weak']:
+        for undef_symbol in obj_info["undef"]:
+            if undef_symbol in obj_info["weak"]:
                 print(f"Skippping weak dependency: {undef_symbol}")
                 continue
             if undef_symbol not in provided_symbols:
@@ -145,31 +145,35 @@ def resolve(archives, symbols):
 
     # At this point, all resolvable symbols are resolved
     if unresolved_symbols:
-        raise RuntimeError(f"Unresolved symbols: {', '.join(unresolved_symbols)}")
+        raise RuntimeError("Unresolved symbols: " + ", ".join(unresolved_symbols))
 
     return resolved_objs
 
+
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description='Resolve dependencies from archive files.')
-    parser.add_argument('--arch',            help='Target architecture to extract objects to')
-    parser.add_argument('-v', '--verbose',   help='increase output verbosity', action='store_true')
-    parser.add_argument('inputs', nargs='+', help='AR archive files and symbols to resolve')
+    parser = argparse.ArgumentParser(description="Resolve dependencies from archive files.")
+    parser.add_argument("--arch",            help="Target architecture to extract objects to")
+    parser.add_argument("-v", "--verbose",   help="increase output verbosity", action="store_true")
+    parser.add_argument("inputs", nargs="+", help="AR archive files and symbols to resolve")
     args = parser.parse_args()
 
     # Separate files and symbols
-    archives = [CachedArFile(item) for item in args.inputs if item.endswith('.a')]
-    symbols = [item for item in args.inputs if not item.endswith('.a')]
+    archives = [CachedArFile(item) for item in args.inputs if item.endswith(".a")]
+    symbols = [item for item in args.inputs if not item.endswith(".a")]
 
     result = resolve(archives, symbols)
 
     # Extract files
     for ar, obj in result:
-        print(os.path.basename(ar.fn) + ':' + obj)
+        print(Path(ar.fn).stem + "/" + obj)
         if args.verbose:
-            print('  def:', ','.join(ar.objs[obj]['def']))
-            print('  req:', ','.join(ar.objs[obj]['undef']))
+            print("  def:", ", ".join(ar.objs[obj]["def"]))
+            print("  req:", ", ".join(ar.objs[obj]["undef"]))
+            weak = ar.objs[obj]["weak"]
+            if weak:
+                print(" weak:", ", ".join(weak))
         if args.arch:
             content = ar.open(obj).read()
-            with open(f'runtime/libgcc-{args.arch}/{obj}', 'wb') as output:
+            with open(f"runtime/libgcc-{args.arch}/{obj}", "wb") as output:
                 output.write(content)
