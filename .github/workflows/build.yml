@@ -30,7 +30,7 @@ jobs:
         echo "Installing MicroPython"
         wget -qO- https://github.com/vshymanskyy/micropython/archive/refs/heads/mpy-ld-link-archives.tar.gz | tar xz -C ./tools
 
-        pip3 install -U pyelftools tabulate
+        pip3 install -U pyelftools ar tabulate
 
         sudo apt update
         sudo apt install build-essential gcc-multilib gcc-arm-none-eabi
