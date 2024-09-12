@@ -152,6 +152,8 @@ def resolve(archives, symbols):
 
 if __name__ == "__main__":
     import argparse
+    from pathlib import Path
+
     parser = argparse.ArgumentParser(description="Resolve dependencies from archive files.")
     parser.add_argument("--arch",            help="Target architecture to extract objects to")
     parser.add_argument("-v", "--verbose",   help="increase output verbosity", action="store_true")
