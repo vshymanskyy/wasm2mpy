@@ -22,6 +22,10 @@ ifeq ($(ARCH),xtensa)
   SRC += runtime/esp8266-rom.S
 endif
 
+ifneq ($(ARCH),x64)
+  MPY_LINK_RUNTIME = 1
+endif
+
 # Wasm module to build
 WASM ?= test/$(APP).wasm
 
