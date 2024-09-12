@@ -22,8 +22,6 @@ ifeq ($(ARCH),xtensa)
   SRC += runtime/esp8266-rom.S
 endif
 
-SRC_O = $(wildcard runtime/libgcc-$(ARCH)/*.o)
-
 # Wasm module to build
 WASM ?= test/$(APP).wasm
 
@@ -33,11 +31,7 @@ include $(MPY_DIR)/py/dynruntime.mk
 CFLAGS += -Os -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
           -Wno-unused-variable -Wno-unused-but-set-variable
 
-LIBGCC = $(realpath $(shell $(CROSS)gcc $(CFLAGS) --print-libgcc-file-name))
-LIBM = $(realpath $(shell $(CROSS)gcc $(CFLAGS) --print-file-name=libm.a))
-
-$(info libgcc: $(LIBGCC))
-$(info libm:   $(LIBM))
+#MPY_LD_FLAGS += -v
 
 #CLEAN_EXTRA += $(BUILD)
 

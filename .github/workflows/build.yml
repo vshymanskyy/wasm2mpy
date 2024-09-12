@@ -28,7 +28,7 @@ jobs:
         echo "Installing WABT"
         wget -qO- https://github.com/WebAssembly/wabt/releases/download/1.0.36/wabt-1.0.36-ubuntu-20.04.tar.gz | tar xz -C ./tools
         echo "Installing MicroPython"
-        wget -qO- https://github.com/micropython/micropython/archive/refs/heads/master.tar.gz | tar xz -C ./tools
+        wget -qO- https://github.com/vshymanskyy/micropython/archive/refs/heads/mpy-ld-link-archives.tar.gz | tar xz -C ./tools
 
         pip3 install -U pyelftools tabulate
 
@@ -40,6 +40,6 @@ jobs:
         export PATH=$PWD/tools/xtensa-lx106-elf/bin:$PATH
         export PATH=$PWD/tools/xtensa-esp32-elf/bin:$PATH
         export PATH=$PWD/tools/wabt-1.0.36/bin:$PATH
-        export MPY_DIR=$PWD/tools/micropython-master
+        export MPY_DIR=$PWD/tools/micropython-mpy-ld-link-archives
 
         python3 buildall.py
