@@ -116,6 +116,7 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
   - [ ] Auto-generate exports bindings
 - [x] Support imports
 - [x] Support memory
+- [ ] [Support `.a` inputs for `mpy_ld`](https://github.com/micropython/micropython/pull/15838)
 - [ ] TBD: Support globals
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 - [ ] Optimize codegen
@@ -125,8 +126,6 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
 ## Future Work
 
 - [XIP for native modules](https://github.com/orgs/micropython/discussions/12811#discussioncomment-7399671)
-- Support `.a` inputs for `mpy_ld`
-- `mpy_ld` to perform optimizations, i.e. removing unreferenced code and data
 - Implement [WASM Custom Page Sizes](https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md)
 - Implement WASM Exceptions 
 - Implement [WASM Stack Switching](https://github.com/WebAssembly/stack-switching/blob/main/proposals/stack-switching/Explainer.md)
