@@ -56,7 +56,8 @@ int strncmp(const char *_l, const char *_r, size_t n) {
 
 void abort() {
     mp_printf(&mp_plat_print, "Aborting\n");
-    for(;;) {}  // Wait forever
+    __builtin_trap();
+    for(;;) {}  // Should not reach here
 }
 
 #if defined(__ARM_EABI__)

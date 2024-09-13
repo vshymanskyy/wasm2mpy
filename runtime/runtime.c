@@ -86,15 +86,15 @@ __attribute__((weak))
 void w2c_app_0x5Fstart(w2c_wasm* module) {}
 
 void os_print_last_error(const char* msg) {
-    mp_printf(&mp_plat_print, "Error: %s\n", msg);
+    mp_raise_msg(&mp_type_RuntimeError, msg);
     abort();
 }
 
 void wasm_rt_trap_handler(wasm_rt_trap_t code) {
 #if WASM_RT_OPTIMIZE
-    mp_printf(&mp_plat_print, "Trap: %d\n", code);
+    mp_raise_msg(&mp_type_RuntimeError, "wasm trap");
 #else
-    mp_printf(&mp_plat_print, "Trap: %s\n", wasm_rt_strerror(code));
+    mp_raise_msg(&mp_type_RuntimeError, wasm_rt_strerror(code));
 #endif
     abort();
 }
