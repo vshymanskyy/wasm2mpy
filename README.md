@@ -31,7 +31,7 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 You'll need:
 
-- Python 3 + `pyelftools`
+- Python 3 + `pip install --upgrade pyelftools ar`
 - `wasm2c` from [WABT](https://github.com/WebAssembly/wabt/releases/tag/1.0.36)
 - Latest [MicroPython](https://github.com/micropython/micropython) source code
 - Target architecture toolchain
