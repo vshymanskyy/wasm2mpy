@@ -1,7 +1,7 @@
 # wasm2mpy
 
 [![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md) 
-[![Build status](https://img.shields.io/github/actions/workflow/status/vshymanskyy/wasm2mpy/static.yml?branch=main&style=flat-square&logo=github&label=build)](https://github.com/vshymanskyy/wasm2mpy/actions) 
+[![Build status](https://img.shields.io/github/actions/workflow/status/vshymanskyy/wasm2mpy/build.yml?branch=main&style=flat-square&logo=github&label=build)](https://github.com/vshymanskyy/wasm2mpy/actions) 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/vshymanskyy/wasm2mpy) 
 [![Support vshymanskyy](https://img.shields.io/static/v1?label=support&message=%E2%9D%A4&color=%23fe8e86)](https://quicknote.io/da0a7d50-bb49-11ec-936a-6d7fd5a2de08) 
 
