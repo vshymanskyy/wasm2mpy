@@ -15,7 +15,7 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 | ⚙ WAT            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 | 🇨 Coremark       | ✅✅    | 🚧       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 
-✅ runs OK  
+✅ builds and runs OK  
 🟡 builds OK, doesn't run  
 🚧 work in progress  
 
