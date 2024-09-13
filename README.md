@@ -1,6 +1,6 @@
 # wasm2mpy
 
-Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
+Compile `WebAssembly` binary into a `MicroPython` module and load it dynamically on a Raspberry Pi Pico, ESP8266, ESP32, etc.
 
 <img width="30%" src="/logo.png">
 
