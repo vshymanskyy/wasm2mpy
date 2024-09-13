@@ -21,7 +21,7 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 [^1]: [AssemblyScript](https://www.assemblyscript.org)
 [^2]: `esp8266` requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018), and setting `WASM_PAGE_SIZE` to `8192` (or need to wait for [`WASM Custom Page Sizes`][1])
-[^3]: `armv6m` depends on [Support modules larger than 4KiB](https://github.com/micropython/micropython/pull/12241)
+[^3]: `armv6m` depends on [jumping more than 2k](https://github.com/micropython/micropython/pull/15812)
 [^4]: not enough memory to run, need to wait for [`WASM Custom Page Sizes`][1]
 
 ## Compile
