@@ -4,9 +4,6 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 <img width="30%" src="/logo.png">
 
-> [!IMPORTANT]
-> **This is a Proof-of-Concept, not optimized or ready for actual use.**
-
 | App \ Target      | x86/x64   | armv6m[^3]  | armv7m/+s/+d | esp8266[^2]  | esp32      | rv32imc  |
 |-------------------|-----------|----------|---------|----------|------------|----------|
 | 🚀 TypeScript[^1] | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | 🚧       |
@@ -28,6 +25,9 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 [^4]: not enough memory to run, need to wait for [`WASM Custom Page Sizes`][1]
 
 ## Compile
+
+> [!IMPORTANT]
+> **This is a Proof-of-Concept, not optimized or ready for actual use.**
 
 You'll need:
 
