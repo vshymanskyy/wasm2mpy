@@ -7,25 +7,23 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 > [!IMPORTANT]
 > **This is a Proof-of-Concept, not optimized or ready for actual use.**
 
-| App \ Target      | x86/x64   | armv6m³  | armv7m/+s/+d | esp8266²  | esp32      | rv32imc  |
+| App \ Target      | x86/x64   | armv6m[^3]  | armv7m/+s/+d | esp8266[^2]  | esp32      | rv32imc  |
 |-------------------|-----------|----------|---------|----------|------------|----------|
-| 🚀 TypeScript¹    | ✅✅    | ✅       | ✅✅✅      | ⚠️⁴      | ✅         | 🚧       |
+| 🚀 TypeScript[^1] | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | 🚧       |
 | 🤩 C++            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
-| 🦀 Rust           | ✅✅    | ✅       | 🟡🟡✅      | ⚠️⁴      | ✅         | 🚧       |
+| 🦀 Rust           | ✅✅    | ✅       | 🟡🟡✅      | ⚠️[^4]   | ✅         | 🚧       |
 | 🤖 TinyGo         | 🚧🚧    | 🚧       | 🚧🚧🚧      | 🚧       | 🚧         | 🚧       |
-| ⚡ Zig            | ✅✅    | ✅       | ✅✅✅      | ⚠️⁴      | ✅         | 🚧       |
+| ⚡ Zig            | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | 🚧       |
 | ✨ Virgil         | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 | ⚙ WAT            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 | 🇨 Coremark       | ✅✅    | 🟡       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 
-✅ - builds and runs OK  
-📦 - builds OK  
-🟡 - issues in runtime  
-🚧 - work in progress  
-¹ AssemblyScript  
-² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018), and setting `WASM_PAGE_SIZE` to `8192`  
-³ armv6m depends on [Support modules larger than 4KiB](https://github.com/micropython/micropython/pull/12241)  
-⁴ not enough memory to run, requires `WASM Custom Page Sizes`  
+✅ builds and runs OK | 🟡 issues in runtime | 🚧 work in progress
+
+[^1]: AssemblyScript
+[^2]: `esp8266` requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018), and setting `WASM_PAGE_SIZE` to `8192`
+[^3]: `armv6m` depends on [Support modules larger than 4KiB](https://github.com/micropython/micropython/pull/12241)
+[^4]: not enough memory to run, requires [`WASM Custom Page Sizes`][1]
 
 ## Compile
 
