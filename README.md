@@ -7,18 +7,18 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 > [!IMPORTANT]
 > **This is a Proof-of-Concept, not optimized or ready for actual use.**
 
-| App \ Target      | x86   | x64   | armv6m³  | armv7m | esp8266²  | esp32      | rv32imc  |
+| App \ Target      | x86   | x64   | armv6m³  | armv7m/+s/+d | esp8266²  | esp32      | rv32imc  |
 |-------------------|-------|-------|----------|---------|----------|------------|----------|
-| 🚀 TypeScript¹    | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| 🤩 C++            | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| 🦀 Rust           | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| 🤖 TinyGo         | 🟢    | 🟢    | 🟢       | 🟢      | 🟢       | 🟢         | ⏳       |
-| ✨ Virgil         | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| ⚙ WAT            | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| ⚡ Zig            | 🟢    | ☑    | ☑       | 🟢      | 🟢       | ☑         | ⏳       |
-| 🇨 Coremark       | 🟢    | ☑    | 🟢       | 🟢      | 🟢       | ☑         | ⏳       |
+| 🚀 TypeScript¹    | 📦    | ✅    | ✅       | ✅✅✅      | 📦       | ✅         | 🚧       |
+| 🤩 C++            | 📦    | ✅    | ✅       | ✅✅✅      | 📦       | ✅         | 🚧       |
+| 🦀 Rust           | 📦    | ✅    | ✅       | ☠☠✅      | 📦       | ✅         | 🚧       |
+| 🤖 TinyGo         | 📦    | ☠    | ☠       | ☠☠☠      | 📦       | ☠         | 🚧       |
+| ✨ Virgil         | 📦    | ✅    | ✅       | ✅✅✅      | 📦       | ✅         | 🚧       |
+| ⚙ WAT            | 📦    | ✅    | ✅       | ✅✅✅      | 📦       | ✅         | 🚧       |
+| ⚡ Zig            | 📦    | ✅    | ✅       | ✅✅✅      | 📦       | ✅         | 🚧       |
+| 🇨 Coremark       | 📦    | ✅    | ☠       | ✅✅✅      | 📦       | ✅         | 🚧       |
 
-🟢 - builds OK, ☑ - runs OK, ⏳ - work in progress
+| ✅ - builds and runs OK | 📦 - builds OK | ☠ - issues in runtime | 🚧 - work in progress |
 
 ¹ AssemblyScript  
 ² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018)  
@@ -109,6 +109,12 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
 >>> cpp.setup()
 🤩 Hello C++ world
 ```
+
+## CoreMark results
+
+| ESP32 `240MHz` | iMXRT1062 `600MHz` | STM32F405 `168MHz` |
+|----------------|--------------------|--------------------|
+| 271.573        | 1911.437           | 233.918            |
 
 ## TODO
 
