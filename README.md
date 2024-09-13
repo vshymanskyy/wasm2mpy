@@ -10,17 +10,17 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 | App \ Target      | x86   | x64   | armv6m³  | armv7m/+s/+d | esp8266²  | esp32      | rv32imc  |
 |-------------------|-------|-------|----------|---------|----------|------------|----------|
 | 🚀 TypeScript¹    | 📦    | ✅    | ✅       | ✅✅✅      | ⚠️⁴      | ✅         | 🚧       |
-| 🤩 C++            | 📦    | ✅    | ✅       | ✅✅✅      | ☠       | ✅         | 🚧       |
-| 🦀 Rust           | 📦    | ✅    | ✅       | ☠☠✅      | ⚠️⁴      | ✅         | 🚧       |
-| 🤖 TinyGo         | 📦    | ☠    | ☠       | ☠☠☠      | ⚠️⁴      | ☠         | 🚧       |
+| 🤩 C++            | 📦    | ✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
+| 🦀 Rust           | 📦    | ✅    | ✅       | 🟡🟡✅      | ⚠️⁴      | ✅         | 🚧       |
+| 🤖 TinyGo         | 📦    | 🟡    | 🟡       | 🟡🟡🟡      | ⚠️⁴      | 🟡         | 🚧       |
 | ⚡ Zig            | 📦    | ✅    | ✅       | ✅✅✅      | ⚠️⁴      | ✅         | 🚧       |
-| ✨ Virgil         | 📦    | ✅    | ✅       | ✅✅✅      | ☠       | ✅         | 🚧       |
-| ⚙ WAT            | 📦    | ✅    | ✅       | ✅✅✅      | ☠       | ✅         | 🚧       |
-| 🇨 Coremark       | 📦    | ✅    | ☠       | ✅✅✅      | ☠       | ✅         | 🚧       |
+| ✨ Virgil         | 📦    | ✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
+| ⚙ WAT            | 📦    | ✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
+| 🇨 Coremark       | 📦    | ✅    | 🟡       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 
 ✅ - builds and runs OK  
 📦 - builds OK  
-☠ - issues in runtime  
+🟡 - issues in runtime  
 🚧 - work in progress  
 ¹ AssemblyScript  
 ² ESP8266 requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018), and setting `WASM_PAGE_SIZE` to `8192`  
