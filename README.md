@@ -18,7 +18,9 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 | ⚙ WAT            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 | 🇨 Coremark       | ✅✅    | 🚧       | ✅✅✅      | 🟡       | ✅         | 🚧       |
 
-✅ runs OK | 🟡 builds OK, doesn't run | 🚧 work in progress
+✅ runs OK  
+🟡 builds OK, doesn't run  
+🚧 work in progress  
 
 [^1]: [AssemblyScript](https://www.assemblyscript.org)
 [^2]: `esp8266` requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018), and setting `WASM_PAGE_SIZE` to `8192` (or need to wait for [`WASM Custom Page Sizes`][1])
@@ -29,7 +31,8 @@ Convert `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 You'll need:
 
-- Python 3 + `pip install --upgrade pyelftools ar`
+- Python 3
+  - `pip install --upgrade pyelftools ar`
 - `wasm2c` from [WABT](https://github.com/WebAssembly/wabt/releases/tag/1.0.36)
 - Latest [MicroPython](https://github.com/micropython/micropython) source code
 - Target architecture toolchain
