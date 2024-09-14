@@ -9,17 +9,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-void* calloc( size_t num, size_t size ) {
+void *calloc(size_t num, size_t size) {
     void *ptr = m_malloc(num * size);
     // memory already cleared by conservative GC
     return ptr;
 }
 
-void free( void *ptr ) {
+void free(void *ptr) {
     m_free(ptr);
 }
 
-void *realloc( void *ptr, size_t new_size ) {
+void *realloc(void *ptr, size_t new_size) {
     return m_realloc(ptr, new_size);
 }
 
@@ -54,18 +54,29 @@ int strncmp(const char *_l, const char *_r, size_t n) {
     return *l - *r;
 }
 
-void abort() {
+int errno;
+
+int *__errno(void) {
+    return &errno;
+}
+
+int *__errno_location(void) {
+    return &errno;
+}
+
+__attribute__ ((noreturn))
+void abort(void) {
     mp_printf(&mp_plat_print, "Aborting\n");
     __builtin_trap();
     for(;;) {}  // Should not reach here
 }
 
-#if defined(__ARM_EABI__)
-int __aeabi_idiv0(int ret) {
-    return ret;
+__attribute__ ((noreturn))
+void __stack_chk_fail(void) {
+    abort();
 }
 
-long long __aeabi_ldiv0(long long ret) {
-    return ret;
+__attribute__ ((noreturn))
+void __stack_chk_fail_local(void) {
+    abort();
 }
-#endif
