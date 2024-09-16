@@ -1,6 +1,4 @@
-<img width="15%" src="/logo.png">
-
-# wasm2mpy
+# <img height="48px" src="/logo.png"> wasm2mpy
 
 [![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md) 
 [![Build status](https://img.shields.io/github/actions/workflow/status/vshymanskyy/wasm2mpy/build.yml?branch=main&style=flat-square&logo=github&label=build)](https://github.com/vshymanskyy/wasm2mpy/actions) 
