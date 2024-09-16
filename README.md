@@ -1,3 +1,5 @@
+<img width="15%" src="/logo.png">
+
 # wasm2mpy
 
 [![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md) 
@@ -7,7 +9,7 @@
 
 Compile `WebAssembly` binary into a `MicroPython` module and load it dynamically on ESP32, Raspberry Pi Pico, STM32, nRF52 etc.
 
-<img width="30%" src="/logo.png">
+## Status
 
 | App \ Target      | x86/x64   | armv6m[^3]  | armv7m/+s/+d | esp8266[^2]  | esp32      | rv32imc  |
 |-------------------|-----------|----------|---------|----------|------------|----------|
@@ -131,7 +133,7 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
   - [ ] Auto-generate exports bindings
 - [x] Support imports
 - [x] Support memory
-- [ ] [Support `.a` inputs for `mpy_ld`](https://github.com/micropython/micropython/pull/15838)
+- [x] [Support `.a` inputs for `mpy_ld`](https://github.com/micropython/micropython/pull/15838)
 - [ ] TBD: Support globals
 - [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 - [ ] Optimize codegen
