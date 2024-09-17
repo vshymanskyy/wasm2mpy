@@ -29,6 +29,12 @@ Compile `WebAssembly` binary into a `MicroPython` module and load it dynamically
 [^3]: `armv6m` depends on [jumping more than 2k](https://github.com/micropython/micropython/pull/15812)
 [^4]: not enough memory to run, need to wait for [`WASM Custom Page Sizes`][1]
 
+## CoreMark results
+
+| ESP32 `240MHz` | iMXRT1062 `600MHz` | STM32F405 `168MHz` | i5-8250U `1.6GHz` |
+|----------------|--------------------|--------------------|-------------------|
+| 271.573        | 1911.437           | 233.918            | 18696.248         |
+
 ## Compile
 
 > [!IMPORTANT]
@@ -118,12 +124,6 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
 >>> cpp.setup()
 🤩 Hello C++ world
 ```
-
-## CoreMark results
-
-| ESP32 `240MHz` | iMXRT1062 `600MHz` | STM32F405 `168MHz` | i5-8250U `1.6GHz` |
-|----------------|--------------------|--------------------|-------------------|
-| 271.573        | 1911.437           | 233.918            | 18696.248         |
 
 ## TODO
 
