@@ -35,8 +35,6 @@ CFLAGS += -Os -Iruntime -I$(BUILD) -Wno-unused-value -Wno-unused-function \
 
 #MPY_LD_FLAGS += -v
 
-#CLEAN_EXTRA += $(BUILD)
-
 $(BUILD)/wasm.c: $(WASM)
 	$(Q)$(MKDIR) -p $(BUILD)
 	$(ECHO) "W2C $<"

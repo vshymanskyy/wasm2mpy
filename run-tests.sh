@@ -7,8 +7,6 @@ set -e
 
 export PATH=.:$PATH
 
-mpremote mkdir :lib 2>&1 >/dev/null || true
-
 for APP in assemblyscript cpp rust tinygo zig virgil wat coremark; do
   echo "======================================"
   echo "    Building $APP.mpy ..."
@@ -19,7 +17,7 @@ for APP in assemblyscript cpp rust tinygo zig virgil wat coremark; do
   if [[ $ARCH == @(x64|x86) ]]; then
     micropython-$ARCH -c "import $APP as app; app.setup(); app.loop(); app.loop()"
   else
-    mpremote cp $APP.mpy :lib/ 2>&1 >/dev/null
+    mpremote cp $APP.mpy : 2>&1 >/dev/null
     mpremote exec "import $APP as app; app.setup(); app.loop(); app.loop()" || true
   fi
   echo

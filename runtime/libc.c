@@ -3,11 +3,15 @@
  * Created:   24.08.2024
  **/
 
+// define errno before any includes so it gets into BSS
+int errno;
+
 #include "py/dynruntime.h"
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 void *calloc(size_t num, size_t size) {
     void *ptr = m_malloc(num * size);
@@ -53,8 +57,6 @@ int strncmp(const char *_l, const char *_r, size_t n) {
     for (; *l && *r && n && *l == *r ; l++, r++, n--);
     return *l - *r;
 }
-
-int errno;
 
 int *__errno(void) {
     return &errno;
