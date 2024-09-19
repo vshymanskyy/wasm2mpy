@@ -31,11 +31,11 @@ Compile `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 ## CoreMark results
 
-- STM32F405 168MHz: `233.918`
-- ESP32 240MHz: `228.363`
-- ESP32-S3 240MHz: `271.573`
-- iMXRT1062 600MHz: `1911.437`
-- i5-8250U 1.6GHz: `18696.248`
+- **STM32F405** 168MHz: `233.918`
+- **ESP32** 240MHz: `228.363`
+- **ESP32-S3** 240MHz: `271.573`
+- **iMXRT1062** 600MHz: `1911.437`
+- **i5-8250U** 1.6GHz: `18696.248`
 
 ## Compile
 
