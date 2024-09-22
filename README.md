@@ -156,8 +156,8 @@ The idea is very similar to [embedded-wasm-apps](https://github.com/wasm3/embedd
 ## Further reading
 
 - [Discussion](https://github.com/orgs/micropython/discussions/15702) on `wasm2mpy`
-- Wasm to C conversion: https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md, https://github.com/turbolent/w2c2
-- MicroPython Native Modules: https://docs.micropython.org/en/latest/develop/natmod.html
-- Feasibility of WASM for MicroPython: https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885
+- [WASM2C](https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md), [W2C2](https://github.com/turbolent/w2c2)
+- MicroPython [Native Modules](https://docs.micropython.org/en/latest/develop/natmod.html)
+- [Feasibility of WASM for MicroPython](https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885)
 
 [1]: https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md
