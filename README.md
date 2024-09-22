@@ -127,6 +127,12 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
 🤩 Hello C++ world
 ```
 
+## How It Works?
+
+The idea is very similar to [embedded-wasm-apps](https://github.com/wasm3/embedded-wasm-apps):
+
+![image](https://github.com/wasm3/embedded-wasm-apps/blob/main/docs/how-it-works.png?raw=1)
+
 ## TODO
 
 - [x] Support exports
@@ -149,11 +155,9 @@ bytearray(b' Blink\x00\xf0\x9f\xa4\xa9 C++ is running!\x00\n\x00\x00\x00')
 
 ## Further reading
 
-- `wasm2mpy` discussion: https://github.com/orgs/micropython/discussions/15702
-- https://github.com/wasm3/embedded-wasm-apps
-- https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md
-- https://github.com/turbolent/w2c2
-- https://docs.micropython.org/en/latest/develop/natmod.html
-- https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885
+- [Discussion](https://github.com/orgs/micropython/discussions/15702) on `wasm2mpy`
+- Wasm to C conversion: https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md, https://github.com/turbolent/w2c2
+- MicroPython Native Modules: https://docs.micropython.org/en/latest/develop/natmod.html
+- Feasibility of WASM for MicroPython: https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885
 
 [1]: https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md
