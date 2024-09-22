@@ -9,7 +9,7 @@ Compile `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 ## Status
 
-| App \ Target      | x86/x64   | armv6m[^3]  | armv7m/+s/+d | esp8266[^2]  | esp32      | rv32imc  |
+| App \ Target      | x86/x64   | armv6m  | armv7m/+s/+d | esp8266[^2]  | esp32      | rv32imc  |
 |-------------------|-----------|----------|---------|----------|------------|----------|
 | 🚀 TypeScript[^1] | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | 🚧       |
 | 🤩 C++            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
@@ -26,7 +26,6 @@ Compile `WebAssembly` binary into a `MicroPython` module and load it dynamically
 
 [^1]: [AssemblyScript](https://www.assemblyscript.org)
 [^2]: `esp8266` requires the use of [`esp.set_native_code_location`](https://github.com/micropython/micropython/issues/14430#issuecomment-2332648018), and setting `WASM_PAGE_SIZE` to `8192` (or need to wait for [`WASM Custom Page Sizes`][1])
-[^3]: `armv6m` depends on [jumping more than 2k](https://github.com/micropython/micropython/pull/15812)
 [^4]: not enough memory to run, need to wait for [`WASM Custom Page Sizes`][1]
 
 ## CoreMark results
@@ -153,7 +152,7 @@ The idea is very similar to [embedded-wasm-apps](https://github.com/wasm3/embedd
 ## Further reading
 
 - [Discussion](https://github.com/orgs/micropython/discussions/15702) on `wasm2mpy`
-- [WASM2C](https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md), [W2C2](https://github.com/turbolent/w2c2)
+- [wasm2c](https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md), [w2c2](https://github.com/turbolent/w2c2)
 - MicroPython [Native Modules](https://docs.micropython.org/en/latest/develop/natmod.html)
 - [Feasibility of WASM for MicroPython](https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885)
 
