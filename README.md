@@ -146,12 +146,9 @@ The idea is very similar to [embedded-wasm-apps](https://github.com/wasm3/embedd
 - [ ] Optimize codegen
   - [ ] Use `u32` instead of `u64` for mem addresses
   - [ ] Use a directly addressable `.bss` section as memory (skip indirection)
-
-## Future Work
-
-- Implement [WASM Custom Page Sizes][1]
-- Implement WASM Exceptions 
-- Implement [WASM Stack Switching](https://github.com/WebAssembly/stack-switching/blob/main/proposals/stack-switching/Explainer.md)
+- [ ] Implement [WASM Custom Page Sizes][1]
+- [ ] Implement WASM Exceptions 
+- [ ] Implement [WASM Stack Switching](https://github.com/WebAssembly/stack-switching/blob/main/proposals/stack-switching/Explainer.md)
 
 ## Further reading
 
