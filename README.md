@@ -151,7 +151,7 @@ The idea is very similar to [embedded-wasm-apps](https://github.com/wasm3/embedd
 
 ## Further reading
 
-- [Discussion](https://github.com/orgs/micropython/discussions/15702) on `wasm2mpy`
+- Discussions: [GitHub](https://github.com/orgs/micropython/discussions/15702), [Hacker News](https://news.ycombinator.com/item?id=41599579)
 - [wasm2c](https://github.com/WebAssembly/wabt/blob/main/wasm2c/README.md), [w2c2](https://github.com/turbolent/w2c2)
 - MicroPython [Native Modules](https://docs.micropython.org/en/latest/develop/natmod.html)
 - [Feasibility of WASM for MicroPython](https://github.com/micropython/micropython/issues/15270#issuecomment-2280942885)
