@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/vshymanskyy/wasm2mpy) 
 [![Support vshymanskyy](https://img.shields.io/static/v1?label=support&message=%E2%9D%A4&color=%23fe8e86)](https://quicknote.io/da0a7d50-bb49-11ec-936a-6d7fd5a2de08) 
 
-Compile `WebAssembly` binary into a `MicroPython` module and load it dynamically on ESP32, Raspberry Pi Pico, STM32, nRF52 etc.
+`wasm2mpy` enables developers to write code in statically compiled languages and run it on MicroPython-based embedded systems (such as ESP32, Raspberry Pi Pico, STM32, and nRF52) with near-native performance. Since MicroPython is relatively slow for computationally intensive applications, `wasm2mpy` provides the tools necessary to run demanding software, such as AI and signal processing algorithms, more efficiently.
 
 ## Status
 
