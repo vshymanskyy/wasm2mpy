@@ -1,0 +1,792 @@
+diff --git a/docs/develop/natmod.rst b/docs/develop/natmod.rst
+index d8474dad8..d40d2ce11 100644
+--- a/docs/develop/natmod.rst
++++ b/docs/develop/natmod.rst
+@@ -39,7 +39,8 @@ options for the ``ARCH`` variable, see below):
+ * ``armv7emsp`` (ARM Thumb 2, single precision float, eg Cortex-M4F, Cortex-M7)
+ * ``armv7emdp`` (ARM Thumb 2, double precision float, eg Cortex-M7)
+ * ``xtensa`` (non-windowed, eg ESP8266)
+-* ``xtensawin`` (windowed with window size 8, eg ESP32)
++* ``xtensawin`` (windowed with window size 8, eg ESP32, ESP32S3)
++* ``rv32imc`` (RISC-V 32 bits with compressed instructions, eg ESP32C3)
+ 
+ When compiling and linking the native .mpy file the architecture must be chosen
+ and the corresponding file can only be imported on that architecture.  For more
+@@ -179,7 +180,7 @@ The file ``Makefile`` contains:
+     # Source files (.c or .py)
+     SRC = factorial.c
+ 
+-    # Architecture to build for (x86, x64, armv6m, armv7m, xtensa, xtensawin)
++    # Architecture to build for (x86, x64, armv6m, armv7m, xtensa, xtensawin, rv32imc)
+     ARCH = x64
+ 
+     # Include to get the rules for compiling and linking the module
+diff --git a/examples/natmod/README.md b/examples/natmod/README.md
+index f72d1c049..ca6b887d0 100644
+--- a/examples/natmod/README.md
++++ b/examples/natmod/README.md
+@@ -65,7 +65,7 @@ your system package manager or installed from PyPI in a virtual environment
+ with `pip`.
+ 
+ Each example provides a Makefile. You should specify the `ARCH` argument to
+-make (one of x86, x64, armv6m, armv7m, xtensa, xtensawin):
++make (one of x86, x64, armv6m, armv7m, xtensa, xtensawin, rv32imc):
+ 
+ ```
+ $ cd features0
+diff --git a/examples/natmod/btree/Makefile b/examples/natmod/btree/Makefile
+index b5846f900..bbf5b98dc 100644
+--- a/examples/natmod/btree/Makefile
++++ b/examples/natmod/btree/Makefile
+@@ -7,7 +7,7 @@ MOD = btree_$(ARCH)
+ # Source files (.c or .py)
+ SRC = btree_c.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
+ BTREE_DIR = $(MPY_DIR)/lib/berkeley-db-1.xx
+@@ -32,6 +32,8 @@ SRC += $(addprefix $(realpath $(BTREE_DIR))/,\
+ 	mpool/mpool.c \
+ 	)
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ include $(MPY_DIR)/py/dynruntime.mk
+ 
+ # btree needs gnu99 defined
+diff --git a/examples/natmod/deflate/Makefile b/examples/natmod/deflate/Makefile
+index 86ef29b63..931d33e4a 100644
+--- a/examples/natmod/deflate/Makefile
++++ b/examples/natmod/deflate/Makefile
+@@ -7,7 +7,9 @@ MOD = deflate_$(ARCH)
+ # Source files (.c or .py)
+ SRC = deflate.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/features0/Makefile b/examples/natmod/features0/Makefile
+index 57490df90..8f0560844 100644
+--- a/examples/natmod/features0/Makefile
++++ b/examples/natmod/features0/Makefile
+@@ -7,8 +7,11 @@ MOD = features0
+ # Source files (.c or .py)
+ SRC = features0.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ # Include to get the rules for compiling and linking the module
+ include $(MPY_DIR)/py/dynruntime.mk
++
+diff --git a/examples/natmod/features1/Makefile b/examples/natmod/features1/Makefile
+index 010640daf..ba8e2750c 100644
+--- a/examples/natmod/features1/Makefile
++++ b/examples/natmod/features1/Makefile
+@@ -7,8 +7,10 @@ MOD = features1
+ # Source files (.c or .py)
+ SRC = features1.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ # Include to get the rules for compiling and linking the module
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/features2/Makefile b/examples/natmod/features2/Makefile
+index dfebaf956..349926038 100644
+--- a/examples/natmod/features2/Makefile
++++ b/examples/natmod/features2/Makefile
+@@ -13,5 +13,7 @@ ARCH = x64
+ # Link with libm.a and libgcc.a from the toolchain
+ MICROPY_LINK_RUNTIME = 1
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ # Include to get the rules for compiling and linking the module
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/features3/Makefile b/examples/natmod/features3/Makefile
+index 4a5f71b8f..f9680a390 100644
+--- a/examples/natmod/features3/Makefile
++++ b/examples/natmod/features3/Makefile
+@@ -7,8 +7,10 @@ MOD = features3
+ # Source files (.c or .py)
+ SRC = features3.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ # Include to get the rules for compiling and linking the module
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/features4/Makefile b/examples/natmod/features4/Makefile
+index f76a31a7c..24968d520 100644
+--- a/examples/natmod/features4/Makefile
++++ b/examples/natmod/features4/Makefile
+@@ -7,8 +7,10 @@ MOD = features4
+ # Source files (.c or .py)
+ SRC = features4.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ # Include to get the rules for compiling and linking the module
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/framebuf/Makefile b/examples/natmod/framebuf/Makefile
+index 2e2b81597..e27556614 100644
+--- a/examples/natmod/framebuf/Makefile
++++ b/examples/natmod/framebuf/Makefile
+@@ -10,4 +10,6 @@ SRC = framebuf.c
+ # Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/heapq/Makefile b/examples/natmod/heapq/Makefile
+index af45b472d..90c92e3d8 100644
+--- a/examples/natmod/heapq/Makefile
++++ b/examples/natmod/heapq/Makefile
+@@ -7,7 +7,9 @@ MOD = heapq_$(ARCH)
+ # Source files (.c or .py)
+ SRC = heapq.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/random/Makefile b/examples/natmod/random/Makefile
+index 5c50227b1..b849edb77 100644
+--- a/examples/natmod/random/Makefile
++++ b/examples/natmod/random/Makefile
+@@ -7,7 +7,9 @@ MOD = random_$(ARCH)
+ # Source files (.c or .py)
+ SRC = random.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/re/Makefile b/examples/natmod/re/Makefile
+index 1ba540110..497a377cd 100644
+--- a/examples/natmod/re/Makefile
++++ b/examples/natmod/re/Makefile
+@@ -7,7 +7,9 @@ MOD = re_$(ARCH)
+ # Source files (.c or .py)
+ SRC = re.c
+ 
+-# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin)
++# Architecture to build for (x86, x64, armv7m, xtensa, xtensawin, rv32imc)
+ ARCH = x64
+ 
++CLEAN_EXTRA = "$(MOD).mpy"
++
+ include $(MPY_DIR)/py/dynruntime.mk
+diff --git a/examples/natmod/re/re.c b/examples/natmod/re/re.c
+index eb6d13778..c0279ee7e 100644
+--- a/examples/natmod/re/re.c
++++ b/examples/natmod/re/re.c
+@@ -4,7 +4,20 @@
+ #define MICROPY_PY_RE_MATCH_SPAN_START_END (1)
+ #define MICROPY_PY_RE_SUB (0) // requires vstr interface
+ 
++#if defined __has_builtin
++#if __has_builtin(__builtin_alloca)
++#define alloca __builtin_alloca
++#endif
++#endif
++
++#if !defined(alloca)
++#if defined(_PICOLIBC__) && !defined(HAVE_BUILTIN_ALLOCA)
++#define alloca(n) m_malloc(n)
++#else
+ #include <alloca.h>
++#endif
++#endif
++
+ #include "py/dynruntime.h"
+ 
+ #define STACK_LIMIT (2048)
+diff --git a/py/dynruntime.mk b/py/dynruntime.mk
+index 16d1c92dc..eafc407b8 100644
+--- a/py/dynruntime.mk
++++ b/py/dynruntime.mk
+@@ -99,6 +99,22 @@ else ifeq ($(ARCH),xtensawin)
+ CROSS = xtensa-esp32-elf-
+ MICROPY_FLOAT_IMPL ?= float
+ 
++else ifeq ($(ARCH),rv32imc)
++
++# rv32imc
++CROSS = riscv64-unknown-elf-
++MICROPY_ARCH_CFLAGS += -march=rv32imac -mabi=ilp32 -mno-relax
++# If Picolibc is available then select it explicitly.  Ubuntu 22.04 ships its
++# bare metal RISC-V toolchain with Picolibc rather than Newlib, and the default
++# is "nosys" so a value must be provided.  To avoid having per-distro
++# workarounds, always select Picolibc if available.
++PICOLIBC_SPECS = $(shell $(CROSS)gcc --print-file-name=picolibc.specs)
++ifneq ($(PICOLIBC_SPECS),picolibc.specs)
++CFLAGS += --specs=$(PICOLIBC_SPECS)
++endif
++
++MICROPY_FLOAT_IMPL ?= none
++
+ else
+ $(error architecture '$(ARCH)' not supported)
+ endif
+diff --git a/tools/mpy_ld.py b/tools/mpy_ld.py
+index 6c72765e8..646ae2b2b 100755
+--- a/tools/mpy_ld.py
++++ b/tools/mpy_ld.py
+@@ -48,6 +48,7 @@ MP_NATIVE_ARCH_ARMV7EMSP = 7
+ MP_NATIVE_ARCH_ARMV7EMDP = 8
+ MP_NATIVE_ARCH_XTENSA = 9
+ MP_NATIVE_ARCH_XTENSAWIN = 10
++MP_NATIVE_ARCH_RV32IMC = 11
+ MP_PERSISTENT_OBJ_STR = 5
+ MP_SCOPE_FLAG_VIPERRELOC = 0x10
+ MP_SCOPE_FLAG_VIPERRODATA = 0x20
+@@ -57,6 +58,7 @@ MP_FUN_TABLE_MP_TYPE_TYPE_OFFSET = 73
+ 
+ # ELF constants
+ R_386_32 = 1
++R_RISCV_32 = 1
+ R_X86_64_64 = 1
+ R_XTENSA_32 = 1
+ R_386_PC32 = 2
+@@ -71,15 +73,57 @@ R_386_GOTOFF = 9
+ R_386_GOTPC = 10
+ R_ARM_THM_CALL = 10
+ R_XTENSA_ASM_EXPAND = 11
++R_RISCV_BRANCH = 16
++R_RISCV_JAL = 17
++R_RISCV_CALL = 18
++R_RISCV_CALL_PLT = 19
+ R_XTENSA_DIFF32 = 19
+ R_XTENSA_SLOT0_OP = 20
++R_RISCV_GOT_HI20 = 20
++R_RISCV_TLS_GD_HI20 = 22
++R_RISCV_PCREL_HI20 = 23
++R_RISCV_PCREL_LO12_I = 24
++R_RISCV_PCREL_LO12_S = 25
+ R_ARM_BASE_PREL = 25  # aka R_ARM_GOTPC
+ R_ARM_GOT_BREL = 26  # aka R_ARM_GOT32
+ R_ARM_THM_JUMP24 = 30
++R_RISCV_HI20 = 26
++R_RISCV_LO12_I = 27
++R_RISCV_LO12_S = 28
++R_RISCV_TPREL_HI20 = 29
++R_RISCV_TPREL_LO12_I = 30
++R_RISCV_TPREL_LO12_S = 31
++R_RISCV_TPREL_ADD = 32
++R_RISCV_ADD8 = 33
++R_RISCV_ADD16 = 34
++R_RISCV_ADD32 = 35
++R_RISCV_ADD64 = 36
++R_RISCV_SUB8 = 37
++R_RISCV_SUB16 = 38
++R_RISCV_SUB32 = 39
++R_RISCV_SUB64 = 40
++R_RISCV_GOT32_PCREL = 41
+ R_X86_64_GOTPCREL = 9
+ R_X86_64_REX_GOTPCRELX = 42
+ R_386_GOT32X = 43
++R_RISCV_ALIGN = 43
++R_RISCV_RVC_BRANCH = 44
++R_RISCV_RVC_JUMP = 45
++R_RISCV_RELAX = 51
++R_RISCV_SUB6 = 52
++R_RISCV_SET6 = 53
++R_RISCV_SET8 = 54
++R_RISCV_SET16 = 55
++R_RISCV_SET32 = 56
++R_RISCV_32_PCREL = 57
++R_RISCV_PLT32 = 59
+ R_XTENSA_PDIFF32 = 59
++R_RISCV_SET_ULEB128 = 60
++R_RISCV_SUB_ULEB128 = 61
++R_RISCV_TLSDESC_HI20 = 62
++R_RISCC_TLSDESC_LOAD_LO12 = 63
++R_RISCV_TLSDESC_ADD_LO12 = 64
++R_RISCV_TLSDESC_CALL = 65
+ 
+ ################################################################################
+ # Architecture configuration
+@@ -131,6 +175,18 @@ def asm_jump_xtensa(entry):
+     return struct.pack("<BH", jump_op & 0xFF, jump_op >> 8)
+ 
+ 
++def asm_jump_rv32(entry):
++    # This could be 6 bytes shorter, but the code currently cannot
++    # support a trampoline with varying length depending on the offset.
++
++    # auipc t6, HI(entry)
++    # jalr  zero, t6, LO(entry)
++    upper, lower = split_riscv_address(entry)
++    return struct.pack(
++        "<II", (upper | 0x00000F97) & 0xFFFFFFFF, ((lower << 20) | 0x000F8067) & 0xFFFFFFFF
++    )
++
++
+ class ArchData:
+     def __init__(self, name, mpy_feature, word_size, arch_got, asm_jump, *, separate_rodata=False):
+         self.name = name
+@@ -200,6 +256,13 @@ ARCH_DATA = {
+         asm_jump_xtensa,
+         separate_rodata=True,
+     ),
++    "rv32imc": ArchData(
++        "EM_RISCV",
++        MP_NATIVE_ARCH_RV32IMC << 2,
++        4,
++        (R_RISCV_32, R_RISCV_GOT_HI20, R_RISCV_GOT32_PCREL),
++        asm_jump_rv32,
++    ),
+ }
+ 
+ ################################################################################
+@@ -220,6 +283,21 @@ def pack_u24le(data, offset, value):
+     data[offset + 2] = value >> 16 & 0xFF
+ 
+ 
++def split_riscv_address(value):
++    # The address can be represented with just the lowest 12 bits
++    if value < 0 and value > -2048:
++        value = 4096 + value
++        return 0, value
++    # 2s complement
++    if value < 0:
++        value = 0x100000000 + value
++    upper, lower = (value & 0xFFFFF000), (value & 0xFFF)
++    if lower & 0x800 != 0:
++        # Reverse lower part sign extension
++        upper += 0x1000
++    return upper & 0xFFFFFFFF, lower & 0xFFFFFFFF
++
++
+ def xxd(text):
+     for i in range(0, len(text), 16):
+         print("{:08x}:".format(i), end="")
+@@ -488,6 +566,8 @@ def do_relocation_text(env, text_addr, r):
+     # Default relocation type and name for logging
+     reloc_type = "le32"
+     log_name = None
++    addr = None
++    value = None
+ 
+     if (
+         env.arch.name == "EM_386"
+@@ -591,32 +671,71 @@ def do_relocation_text(env, text_addr, r):
+             return
+         assert 0
+ 
++    elif env.arch.name == "EM_ARM" and r_info_type == R_ARM_ABS32:
++        if not hasattr(s, "section"):
++            return
++        addr = s.section.addr + s["st_value"]
++        reloc = addr + r_addend
++        reloc_type = "le32"
++
++    elif env.arch.name == "EM_RISCV" and r_info_type in (
++        R_RISCV_TLS_GD_HI20,
++        R_RISCV_TLSDESC_HI20,
++        R_RISCV_TLSDESC_ADD_LO12,
++        R_RISCV_TLSDESC_CALL,
++    ):
++        # TLS relocations are not supported.
++        raise LinkError("{}: RISC-V TLS relocation: {}".format(s.filename, s.name))
++
++    elif env.arch.name == "EM_RISCV" and r_info_type in (
++        R_RISCV_TPREL_HI20,
++        R_RISCV_TPREL_LO12_I,
++        R_RISCV_TPREL_LO12_S,
++        R_RISCV_TPREL_ADD,
++    ):
++        # ThreadPointer-relative relocations are not supported.
++        raise LinkError("{}: RISC-V TP-relative relocation: {}".format(s.filename, s.name))
++
++    elif env.arch.name == "EM_RISCV" and r_info_type in (R_RISCV_SET_ULEB128, R_RISCV_SUB_ULEB128):
++        # 128-bit value relocations are not supported
++        raise LinkError("{}: RISC-V ULEB128 relocation: {}".format(s.filename, s.name))
++
++    elif env.arch.name == "EM_RISCV" and r_info_type in (R_RISCV_RELAX, R_RISCV_ALIGN):
++        # To keep things simple, no relocations are relaxed and thus no
++        # size optimisation is performed even if there is the chance, along
++        # with no offsets to fix up.
++        return
++
++    elif env.arch.name == "EM_RISCV":
++        (addr, value) = process_riscv32_relocation(env, text_addr, r)
++
+     else:
+         # Unknown/unsupported relocation
+         assert 0, r_info_type
+ 
+-    # Write relocation
+-    if reloc_type == "le32":
+-        (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
+-        struct.pack_into("<I", env.full_text, r_offset, (existing + reloc) & 0xFFFFFFFF)
+-    elif reloc_type == "thumb_b":
+-        b_h, b_l = struct.unpack_from("<HH", env.full_text, r_offset)
+-        existing = (b_h & 0x7FF) << 12 | (b_l & 0x7FF) << 1
+-        if existing >= 0x400000:  # 2's complement
+-            existing -= 0x800000
+-        new = existing + reloc
+-        b_h = (b_h & 0xF800) | (new >> 12) & 0x7FF
+-        b_l = (b_l & 0xF800) | (new >> 1) & 0x7FF
+-        struct.pack_into("<HH", env.full_text, r_offset, b_h, b_l)
+-    elif reloc_type == "xtensa_l32r":
+-        l32r = unpack_u24le(env.full_text, r_offset)
+-        assert l32r & 0xF == 1  # RI16 encoded l32r
+-        l32r_imm16 = l32r >> 8
+-        l32r_imm16 = (l32r_imm16 + reloc >> 2) & 0xFFFF
+-        l32r = l32r & 0xFF | l32r_imm16 << 8
+-        pack_u24le(env.full_text, r_offset, l32r)
+-    else:
+-        assert 0, reloc_type
++    if env.arch.name != "EM_RISCV":
++        # Write relocation
++        if reloc_type == "le32":
++            (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
++            struct.pack_into("<I", env.full_text, r_offset, (existing + reloc) & 0xFFFFFFFF)
++        elif reloc_type == "thumb_b":
++            b_h, b_l = struct.unpack_from("<HH", env.full_text, r_offset)
++            existing = (b_h & 0x7FF) << 12 | (b_l & 0x7FF) << 1
++            if existing >= 0x400000:  # 2's complement
++                existing -= 0x800000
++            new = existing + reloc
++            b_h = (b_h & 0xF800) | (new >> 12) & 0x7FF
++            b_l = (b_l & 0xF800) | (new >> 1) & 0x7FF
++            struct.pack_into("<HH", env.full_text, r_offset, b_h, b_l)
++        elif reloc_type == "xtensa_l32r":
++            l32r = unpack_u24le(env.full_text, r_offset)
++            assert l32r & 0xF == 1  # RI16 encoded l32r
++            l32r_imm16 = l32r >> 8
++            l32r_imm16 = (l32r_imm16 + reloc >> 2) & 0xFFFF
++            l32r = l32r & 0xFF | l32r_imm16 << 8
++            pack_u24le(env.full_text, r_offset, l32r)
++        else:
++            assert 0, reloc_type
+ 
+     # Log information about relocation
+     if log_name is None:
+@@ -624,7 +743,10 @@ def do_relocation_text(env, text_addr, r):
+             log_name = s.section.name
+         else:
+             log_name = s.name
+-    log(LOG_LEVEL_3, "  {:08x} {} -> {:08x}".format(r_offset, log_name, addr))
++    if addr is not None:
++        log(LOG_LEVEL_3, "  {:08x} {} -> {:08x}".format(r_offset, log_name, addr))
++    else:
++        log(LOG_LEVEL_3, "  {:08x} {} {:08x}".format(r_offset, log_name, value))
+ 
+ 
+ def do_relocation_data(env, text_addr, r):
+@@ -647,6 +769,8 @@ def do_relocation_data(env, text_addr, r):
+         and r_info_type == R_ARM_ABS32
+         or env.arch.name == "EM_XTENSA"
+         and r_info_type == R_XTENSA_32
++        or env.arch.name == "EM_RISCV"
++        and r_info_type == R_RISCV_32
+     ):
+         # Relocation in data.rel.ro to internal/external symbol
+         if env.arch.word_size == 4:
+@@ -685,6 +809,276 @@ def do_relocation_data(env, text_addr, r):
+         assert 0, r_info_type
+ 
+ 
++RISCV_RELOCATIONS_TYPE_MAP = {
++    R_RISCV_ADD8: ("riscv_addsub", "B", 8, 1),
++    R_RISCV_ADD16: ("riscv_addsub", "<H", 16, 1),
++    R_RISCV_ADD32: ("riscv_addsub", "<I", 32, 1),
++    R_RISCV_ADD64: ("riscv_addsub", "<Q", 64, 1),
++    R_RISCV_SUB6: ("riscv_addsub", "B", 6, -1),
++    R_RISCV_SUB8: ("riscv_addsub", "B", 8, -1),
++    R_RISCV_SUB16: ("riscv_addsub", "<H", 16, -1),
++    R_RISCV_SUB32: ("riscv_addsub", "<I", 32, -1),
++    R_RISCV_SUB64: ("riscv_addsub", "<Q", 64, -1),
++    R_RISCV_SET6: ("riscv_set6", "B", 6),
++    R_RISCV_SET8: ("riscv_set8", "B", 8),
++    R_RISCV_SET16: ("riscv_set16", "<H", 16),
++    R_RISCV_SET32: ("riscv_set32", "<I", 32),
++    R_RISCV_JAL: "riscv_j",
++    R_RISCV_BRANCH: "riscv_b",
++    R_RISCV_RVC_BRANCH: "riscv_cb",
++    R_RISCV_RVC_JUMP: "riscv_cj",
++    R_RISCV_CALL: "riscv_call",
++    R_RISCV_CALL_PLT: "riscv_call",
++    R_RISCV_PCREL_LO12_I: "riscv_lo12i",
++    R_RISCV_PCREL_LO12_S: "riscv_lo12s",
++    R_RISCV_LO12_I: "riscv_lo12i",
++    R_RISCV_LO12_S: "riscv_lo12s",
++    R_RISCV_32_PCREL: "riscv_32pcrel",
++    R_RISCV_PLT32: "riscv_32pcrel",
++}
++
++
++def process_riscv32_relocation(env, text_addr, r):
++    assert env.arch.name == "EM_RISCV"
++
++    addr = None
++    value = None
++    s = r.sym
++
++    if hasattr(s, "resolved"):
++        s = s.resolved
++
++    r_offset = r["r_offset"] + text_addr
++    r_info_type = r["r_info_type"]
++    try:
++        r_addend = r["r_addend"]
++    except KeyError:
++        r_addend = 0
++
++    if r_info_type == R_RISCV_GOT_HI20:
++        got_entry = env.got_entries[s.name]
++        addr = env.got_section.addr + got_entry.offset
++        reloc = addr + r_addend - r_offset
++        r.computed_reloc = reloc
++        reloc_type = "riscv_hi20"
++
++    elif r_info_type == R_RISCV_GOT32_PCREL:
++        got_entry = env.got_entries[s.name]
++        addr = env.got_section.addr + got_entry.offset
++        value = addr + r_addend - r_offset
++        reloc_type = "riscv_set32"
++
++    elif r_info_type == R_RISCV_PCREL_HI20:
++        addr = s.section.addr + s["st_value"]
++        reloc = addr + r_addend - r_offset
++        r.computed_reloc = reloc
++        reloc_type = "riscv_hi20"
++
++    elif r_info_type == R_RISCV_HI20:
++        addr = s.section.addr + s["st_value"]
++        reloc = addr + r_addend
++        r.computed_reloc = reloc
++        reloc_type = "riscv_hi20"
++
++    elif r_info_type in (
++        R_RISCV_PCREL_LO12_I,
++        R_RISCV_PCREL_LO12_S,
++        R_RISCV_LO12_I,
++        R_RISCV_LO12_S,
++    ):
++        parent = None
++        for potential_parent in s.section.reloc:
++            if potential_parent["r_offset"] != s["st_value"]:
++                continue
++            if potential_parent["r_info_type"] not in (
++                R_RISCV_GOT_HI20,
++                R_RISCV_PCREL_HI20,
++                R_RISCV_HI20,
++            ):
++                continue
++            parent = potential_parent
++            break
++        if parent is None:
++            assert 0, r
++        addr = s.section.addr + s["st_value"]
++        reloc = parent.computed_reloc
++        reloc_type = RISCV_RELOCATIONS_TYPE_MAP[r_info_type]
++
++    elif r_info_type in (
++        R_RISCV_JAL,
++        R_RISCV_RVC_BRANCH,
++        R_RISCV_RVC_JUMP,
++        R_RISCV_CALL,
++        R_RISCV_CALL_PLT,
++        R_RISCV_BRANCH,
++        R_RISCV_32_PCREL,
++        R_RISCV_PLT32,
++    ):
++        addr = s.section.addr + s["st_value"]
++        reloc = addr + r_addend - r_offset
++        reloc_type = RISCV_RELOCATIONS_TYPE_MAP[r_info_type]
++
++    elif r_info_type in (
++        R_RISCV_ADD8,
++        R_RISCV_ADD16,
++        R_RISCV_ADD32,
++        R_RISCV_ADD64,
++        R_RISCV_SUB6,
++        R_RISCV_SUB8,
++        R_RISCV_SUB16,
++        R_RISCV_SUB32,
++        R_RISCV_SUB64,
++        R_RISCV_SET6,
++        R_RISCV_SET8,
++        R_RISCV_SET16,
++        R_RISCV_SET32,
++    ):
++        value = s.section.addr + s["st_value"] + r_addend
++        reloc_type, *reloc_args = RISCV_RELOCATIONS_TYPE_MAP[r_info_type]
++
++    else:
++        # Unknown/unsupported relocation
++        assert 0, r_info_type
++
++    # Write relocation
++    if reloc_type == "riscv_hi20":
++        # Patch the upper 20 bits of the opcode
++        upper, _ = split_riscv_address(reloc)
++        (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
++        struct.pack_into(
++            "<I",
++            env.full_text,
++            r_offset,
++            ((existing & 0xFFF) | upper) & 0xFFFFFFFF,
++        )
++    elif reloc_type == "riscv_lo12i":
++        # Patch the lower 12 bits of an I-opcode immediate.
++        _, lower = split_riscv_address(reloc)
++        (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
++        struct.pack_into(
++            "<I",
++            env.full_text,
++            r_offset,
++            ((existing & 0xFFFFF) | ((lower & 0xFFF) << 20)) & 0xFFFFFFFF,
++        )
++    elif reloc_type == "riscv_lo12s":
++        # Patch the lower 12 bits of an S-opcode immediate.
++        _, lower = split_riscv_address(reloc)
++        (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
++        struct.pack_into(
++            "<I",
++            env.full_text,
++            r_offset,
++            ((existing & 0xFE000F80) | ((lower & 0xFE0) << 20) | ((lower & 0x1F) << 7))
++            & 0xFFFFFFFF,
++        )
++    elif reloc_type == "riscv_cb":
++        # Patch the target of a compressed branch opcode
++        (existing,) = struct.unpack_from("<H", env.full_text, r_offset)
++        struct.pack_into(
++            "<H",
++            env.full_text,
++            r_offset,
++            (
++                (existing & 0xE383)
++                | ((reloc & 0x100) << 4)
++                | ((reloc & 0xC0) >> 1)
++                | ((reloc & 0x20) >> 3)
++                | ((reloc & 0x18) << 7)
++                | ((reloc & 0x06) << 2)
++            )
++            & 0xFFFF,
++        )
++    elif reloc_type == "riscv_cj":
++        # Patch the target of a compressed jump opcode
++        (existing,) = struct.unpack_from("<H", env.full_text, r_offset)
++        struct.pack_into(
++            "<H",
++            env.full_text,
++            r_offset,
++            (
++                (existing & 0xE003)
++                | ((reloc & 0x800) << 1)
++                | ((reloc & 0x400) >> 2)
++                | ((reloc & 0x300) << 1)
++                | ((reloc & 0x80) >> 1)
++                | ((reloc & 0x40) << 1)
++                | ((reloc & 0x20) >> 3)
++                | ((reloc & 0x10) << 7)
++                | ((reloc & 0x0E) << 2)
++            )
++            & 0xFFFF,
++        )
++    elif reloc_type == "riscv_call":
++        # Patch a pair of opcodes forming a call operation
++        upper, lower = split_riscv_address(reloc)
++        (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
++        struct.pack_into(
++            "<I",
++            env.full_text,
++            r_offset,
++            ((existing & 0xFFF) | upper) & 0xFFFFFFFF,
++        )
++        (existing,) = struct.unpack_from("<I", env.full_text, r_offset + 4)
++        struct.pack_into(
++            "<I",
++            env.full_text,
++            r_offset + 4,
++            ((existing & 0xFFFFF) | (lower << 20)) & 0xFFFFFFFF,
++        )
++    elif reloc_type == "riscv_b":
++        # Patch a conditional opcode
++        (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
++        struct.pack_into(
++            "<I",
++            env.full_text,
++            r_offset,
++            (
++                (existing & 0x01FFF07F)
++                | ((reloc & 0x1000) << 19)
++                | ((reloc & 0x800) >> 4)
++                | ((reloc & 0x7E0) << 20)
++                | ((reloc & 0x1E) << 7)
++            )
++            & 0xFFFFFFFF,
++        )
++    elif reloc_type == "riscv_j":
++        # Patch a jump/jump with link opcode
++        (existing,) = struct.unpack_from("<I", env.full_text, r_offset)
++        struct.pack_into(
++            "<I",
++            env.full_text,
++            r_offset,
++            (
++                (existing & 0xFFF)
++                | ((reloc & 0x100000) << 11)
++                | (reloc & 0xFF000)
++                | ((reloc & 0x800) << 9)
++                | ((reloc & 0x7FE) << 20)
++            ),
++        )
++    elif reloc_type == "riscv_addsub":
++        (fmt, bits, multiplier) = reloc_args
++        (existing,) = struct.unpack_from(fmt, env.full_text, r_offset)
++        mask = (1 << bits) - 1
++        value = (existing & mask) + (value * multiplier)
++        if value < 0:
++            value = (1 << bits) + value
++        struct.pack_into(fmt, env.full_text, r_offset, (existing & ~mask) | (value & mask))
++    elif reloc_type == "riscv_set":
++        (fmt, bits) = reloc_args
++        (existing,) = struct.unpack_from(fmt, env.full_text, r_offset)
++        mask = (1 << bits) - 1
++        struct.pack_into(fmt, env.full_text, r_offset, (existing & ~mask) | (value & mask))
++    elif reloc_type == "riscv_32pcrel":
++        # Write the distance from the current PC
++        struct.pack_into("<I", env.full_text, r_offset, reloc & 0xFFFFFFFF)
++    else:
++        assert 0, reloc_type
++
++    return addr, value
++
++
+ def load_object_file(env, f, felf):
+     if 1:  # Temporary, to preserve indent
+         elf = elffile.ELFFile(f)
