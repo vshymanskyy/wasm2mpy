@@ -6,6 +6,8 @@
 #include "py/dynruntime.h"
 #include "wasm.h"
 
+#define mp_type_AttributeError (*(mp_obj_type_t *)(mp_load_global(MP_QSTR_AttributeError)))
+
 // Instance of the WASM module
 w2c_wasm module;
 
@@ -35,13 +37,13 @@ static mp_obj_t getattr(mp_obj_t attr) {
     size_t attr_len;
     char* attr_str = mp_obj_str_get_data(attr, &attr_len);
     if (!attr_str) {
-        mp_raise_msg(&mp_type_RuntimeError, "Invalid attr");
+        mp_raise_msg(&mp_type_AttributeError, "Invalid attr");
         return mp_const_none;
     }
     if (!strncmp(attr_str, "_memory", attr_len + 1)) {
         return mp_obj_new_bytearray_by_ref(module.w2c_memory.size, (void*)(module.w2c_memory.data));
     } else {
-        mp_raise_msg(&mp_type_RuntimeError, "Unknown attr");
+        mp_raise_msg(&mp_type_AttributeError, "Unknown attr");
         return mp_const_none;
     }
 }
@@ -73,7 +75,10 @@ void w2c_wiring_digitalWrite(struct w2c_wiring* wiring, u32 pin, u32 value) {
 }
 
 void w2c_wiring_print(struct w2c_wiring* wiring, u32 offset, u32 len) {
-    // TODO: verify bounds
+    if (len > module.w2c_memory.size || offset > (module.w2c_memory.size - len)) {
+        mp_raise_msg(&mp_type_RuntimeError, "OOB in external func");
+        abort();
+    }
     mp_printf(&mp_plat_print, "%.*s", len, (const uint8_t*)module.w2c_memory.data + offset);
 }
 

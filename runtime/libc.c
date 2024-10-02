@@ -3,8 +3,10 @@
  * Created:   24.08.2024
  **/
 
+#if !defined(__riscv)
 // define errno before any includes so it gets into BSS
 int errno;
+#endif
 
 #include "py/dynruntime.h"
 
@@ -58,6 +60,7 @@ int strncmp(const char *_l, const char *_r, size_t n) {
     return *l - *r;
 }
 
+#if !defined(__riscv)
 int *__errno(void) {
     return &errno;
 }
@@ -65,11 +68,13 @@ int *__errno(void) {
 int *__errno_location(void) {
     return &errno;
 }
+#endif
 
 __attribute__ ((noreturn))
 void abort(void) {
-    mp_printf(&mp_plat_print, "Aborting\n");
-    __builtin_trap();
+    //mp_printf(&mp_plat_print, "WASM: Aborting\n");
+    //__builtin_trap();
+    mp_raise_msg(&mp_type_RuntimeError, "WASM: Aborted");
     for(;;) {}  // Should not reach here
 }
 
