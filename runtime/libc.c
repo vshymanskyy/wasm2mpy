@@ -53,6 +53,12 @@ size_t strlen(const char *str) {
     return (s - str);
 }
 
+int strcmp(const char *l, const char *r)
+{
+    for (; *l==*r && *l; l++, r++);
+    return *(unsigned char *)l - *(unsigned char *)r;
+}
+
 int strncmp(const char *_l, const char *_r, size_t n) {
     const unsigned char *l=(void *)_l, *r=(void *)_r;
     if (!n--) return 0;
@@ -87,3 +93,8 @@ __attribute__ ((noreturn))
 void __stack_chk_fail_local(void) {
     abort();
 }
+
+#if defined(__x86_64__) || defined(__i386__)
+// Allocate memory for cpu_features struct
+const char _dl_x86_cpu_features[80];
+#endif

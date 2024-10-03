@@ -230,7 +230,7 @@ index eb6d13778..c0279ee7e 100644
  
  #define STACK_LIMIT (2048)
 diff --git a/py/dynruntime.mk b/py/dynruntime.mk
-index 16d1c92dc..eafc407b8 100644
+index 16d1c92dc..66b986119 100644
 --- a/py/dynruntime.mk
 +++ b/py/dynruntime.mk
 @@ -99,6 +99,22 @@ else ifeq ($(ARCH),xtensawin)
@@ -248,7 +248,7 @@ index 16d1c92dc..eafc407b8 100644
 +# workarounds, always select Picolibc if available.
 +PICOLIBC_SPECS = $(shell $(CROSS)gcc --print-file-name=picolibc.specs)
 +ifneq ($(PICOLIBC_SPECS),picolibc.specs)
-+CFLAGS += --specs=$(PICOLIBC_SPECS)
++MICROPY_ARCH_CFLAGS += --specs=$(PICOLIBC_SPECS)
 +endif
 +
 +MICROPY_FLOAT_IMPL ?= none
@@ -257,7 +257,7 @@ index 16d1c92dc..eafc407b8 100644
  $(error architecture '$(ARCH)' not supported)
  endif
 diff --git a/tools/mpy_ld.py b/tools/mpy_ld.py
-index 6c72765e8..646ae2b2b 100755
+index 6c72765e8..4269debba 100755
 --- a/tools/mpy_ld.py
 +++ b/tools/mpy_ld.py
 @@ -48,6 +48,7 @@ MP_NATIVE_ARCH_ARMV7EMSP = 7
@@ -389,6 +389,15 @@ index 6c72765e8..646ae2b2b 100755
  def xxd(text):
      for i in range(0, len(text), 16):
          print("{:08x}:".format(i), end="")
+@@ -347,7 +425,7 @@ def build_got_generic(env):
+         for r in sec.reloc:
+             s = r.sym
+             if not (
+-                s.entry["st_info"]["bind"] == "STB_GLOBAL"
++                s.entry["st_info"]["bind"] in ("STB_GLOBAL", "STB_WEAK")
+                 and r["r_info_type"] in env.arch.arch_got
+             ):
+                 continue
 @@ -488,6 +566,8 @@ def do_relocation_text(env, text_addr, r):
      # Default relocation type and name for logging
      reloc_type = "le32"
