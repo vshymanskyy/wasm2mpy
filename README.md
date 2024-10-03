@@ -11,14 +11,14 @@
 
 | App \ Target      | x86/x64   | armv6m  | armv7m/+s/+d | esp8266[^2]  | esp32      | rv32imc  |
 |-------------------|-----------|----------|---------|----------|------------|----------|
-| 🚀 TypeScript[^1] | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | 🚧       |
-| 🤩 C++            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
-| 🦀 Rust           | ✅✅    | ✅       | 🟡🟡✅      | ⚠️[^4]   | ✅         | 🚧       |
-| 🤖 TinyGo         | ✅✅    | ✅       | 🟡🟡✅      | ⚠️[^4]   | ✅         | 🚧       |
-| ⚡ Zig            | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | 🚧       |
-| ✨ Virgil         | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
-| ⚙ WAT            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | 🚧       |
-| 🇨 Coremark       | ✅✅    | 🚧       | ✅✅✅      | 🟡       | ✅         | 🚧       |
+| 🚀 TypeScript[^1] | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | ✅       |
+| 🤩 C++            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | ✅       |
+| 🦀 Rust           | ✅✅    | ✅       | 🟡🟡✅      | ⚠️[^4]   | ✅         | ✅       |
+| 🤖 TinyGo         | ✅✅    | ✅       | 🟡🟡✅      | ⚠️[^4]   | ✅         | ✅       |
+| ⚡ Zig            | ✅✅    | ✅       | ✅✅✅      | ⚠️[^4]   | ✅         | ✅       |
+| ✨ Virgil         | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | ✅       |
+| ⚙ WAT            | ✅✅    | ✅       | ✅✅✅      | 🟡       | ✅         | ✅       |
+| 🇨 Coremark       | ✅✅    | 🚧       | ✅✅✅      | 🟡       | ✅         | ✅       |
 
 ✅ builds and runs OK  
 🟡 builds OK, doesn't run  
@@ -33,6 +33,8 @@
 - **STM32F405** 168MHz: `233.918`
 - **ESP32** 240MHz: `228.363`
 - **ESP32-S3** 240MHz: `271.573`
+- **BL616** 320MHz: `344.293`
+- **BL616** 520MHz: ``
 - **iMXRT1062** 600MHz: `1911.437`
 - **i5-8250U** 1.6GHz: `18696.248`
 
@@ -101,7 +103,7 @@ The idea is very similar to [embedded-wasm-apps](https://github.com/wasm3/embedd
 - [x] [Support `.a` inputs for `mpy_ld`](https://github.com/micropython/micropython/pull/15838)
 - [ ] [XIP for native modules](https://github.com/micropython/micropython/pull/8381#issuecomment-2363022985)
 - [ ] TBD: Support globals
-- [ ] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
+- [x] Add RISC-V support: https://github.com/micropython/micropython/pull/15603
 - [ ] Optimize codegen
   - [ ] Use `u32` instead of `u64` for mem addresses
   - [ ] Use a directly addressable `.bss` section as memory (skip indirection)
