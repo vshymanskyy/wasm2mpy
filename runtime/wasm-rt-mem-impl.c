@@ -21,7 +21,7 @@
 
 // TODO: Support Custom Page Sizes
 // https://github.com/WebAssembly/wabt/issues/2019#issuecomment-2308930257
-#define WASM_PAGE_SIZE 65536
+#define WASM_PAGE_SIZE (64*1024)
 
 #ifdef WASM_RT_GROW_FAILED_HANDLER
 extern void WASM_RT_GROW_FAILED_HANDLER();

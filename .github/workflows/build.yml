@@ -36,11 +36,6 @@ jobs:
         sudo apt install build-essential gcc-multilib gcc-arm-none-eabi
         sudo apt install gcc-riscv64-unknown-elf picolibc-riscv64-unknown-elf
 
-    - name: Add RV32 support
-      run: |
-        cd ./tools/micropython-mpy-ld-link-archives
-        patch -p1 < ../../rv32.patch
-
     - name: Run builds
       run: |
         export PATH=$PWD/tools/xtensa-lx106-elf/bin:$PATH
