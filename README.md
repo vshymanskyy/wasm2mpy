@@ -3,7 +3,7 @@
 [![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md) 
 [![Build status](https://img.shields.io/github/actions/workflow/status/vshymanskyy/wasm2mpy/build.yml?branch=main&style=flat-square&logo=github&label=build)](https://github.com/vshymanskyy/wasm2mpy/actions) 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/vshymanskyy/wasm2mpy) 
-[![Support vshymanskyy](https://img.shields.io/static/v1?label=support&message=%E2%9D%A4&color=%23fe8e86)](https://quicknote.io/da0a7d50-bb49-11ec-936a-6d7fd5a2de08) 
+[![Support vshymanskyy](https://img.shields.io/static/v1?style=flat-square&label=support&message=%E2%9D%A4&color=%23fe8e86)](https://gist.github.com/vshymanskyy/840e6fa41ea6b028b91b333b6e4542ed) 
 
 `wasm2mpy` enables developers to write code in statically compiled languages and run it on MicroPython-based embedded systems (such as ESP32, Raspberry Pi Pico, STM32, and nRF52) with near-native performance. Since MicroPython is relatively slow for computationally intensive applications, `wasm2mpy` provides the tools necessary to run demanding software, such as AI models and signal processing algorithms, more efficiently.
 
